@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT game (players, cardsInGame)>
+<!ATTLIST game
+    id ID #REQUIRED
+    name CDATA #REQUIRED
+    numberOfCards CDATA #REQUIRED
+    leftCards CDATA #REQUIRED
+    width CDATA #REQUIRED
+    length CDATA #REQUIRED  
+    playerOnTurn IDREF #IMPLIED 
+    turnsLeft (1|2) "2"
+    isFinished (true|false) "false">
+
+<!ELEMENT players (player,player+)>
+<!ATTLIST players
+    idPlayer IDREF #IMPLIED
+    idCard IDREF #IMPLIED
+    isWinner (true|false) "false"
+    score CDATA "0">
+
+<!ELEMENT player EMPTY>
+<!ATTLIST player
+    id ID #REQUIRED
+    userName CDATA #REQUIRED>
+    
+<!ELEMENT cardsInGame (card*)>
+<!ATTLIST cardsInGame
+    idCard IDREF #IMPLIED
+    idGame IDREF #IMPLIED
+    posX CDATA #REQUIRED
+    posY CDATA #REQUIRED
+    isOpen (true|false) "false"
+    paired (true|false) "false">
+
+<!ELEMENT card EMPTY>
+<!ATTLIST card
+    id ID #REQUIRED
+    motif CDATA #REQUIRED>
