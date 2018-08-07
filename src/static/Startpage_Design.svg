@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg
+  PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml-stylesheet type="text/css" href="button.css"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+    <rect id="startpage"
+        height="100%"
+        width="100%"
+        stroke="black"
+        fill="#2E2E2E"
+        stroke-width="2">
+        
+    </rect>
+    
+    <svg height="50%" width="100%">
+        <image xlink:href="./Munich.png" height="100%" width="100%" x="0" y="0"  preserveAspectRatio="none">   
+         </image>
+    </svg>
+ 
+     <svg x="45%" y="65%" >
+         <g class="startbutton">
+         <rect class="startbutton"
+             rx="2%"
+             ry="2%"
+             height="15%"
+             width="15%"
+             stroke="black"
+             fill="#BEBEBE"
+             stroke-width="2">
+         </rect>
+             <text x="7%" y="7%" text-anchor="middle" alignment-baseline="central" fill="red">Start game</text>
+         </g>
+     </svg>
+      
+        
+ </svg>
+        
+
