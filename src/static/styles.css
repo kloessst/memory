@@ -1,0 +1,86 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    background-color: #2e2e2e;
+    margin: 0%;
+    padding: 0%;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    color: #bebebe;
+    font-size: 300%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+h1#header {
+    cursor: pointer;
+}
+
+#jumbotron {
+    height: 50%;
+    width: 100%;
+}
+#jumbotron image {
+    height: 100%;
+}
+
+.background {
+    background-image: url(silhouette-of-munich.png);
+    background-size: 100% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom;    
+}
+
+.button-strip {
+    height: 15%; 
+    width: 100%;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+.button-strip svg {
+    height: 100%;
+    width: 15%;
+}
+.button-strip rect {
+    height: 100%;
+    width: 100%;
+    stroke: #000000;
+    stroke-width: 3;
+    fill: #bebebe;
+    cursor: pointer;
+}
+.button-strip text {
+    color: #000000;
+    font-size: 25px;
+    text-anchor: middle;
+    alignment-baseline: middle;
+    cursor: pointer;
+}
+
+.menu-table {
+    width:30%;
+    height:20%; 
+    margin-left:35%; 
+    margin-right:35%;
+    text-align: center;
+    border: 20px;
+}
+.menu-table td {
+    background-color: #bebebe;
+}
+.menu-table div {
+    width: 100%;
+    height: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    font-size: 25px;
+    color: #000000;
+}
