@@ -11,6 +11,10 @@ module namespace page = 'http://basec.org/modulex/-webpage';
 declare
     %rest:path("/")
     %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function page:main()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
@@ -18,16 +22,14 @@ declare
 
         <head>
             <title>Munich-Memory</title>
-            <link rel="stylesheet" href="static/styles.css" />
+            <link rel="stylesheet" type="text/css" href="static/styles.css"/>
         </head>
 
         <body>
 
             <!-- embedded munich picture -->
-            <svg id="jumbotron" x="0" y="0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <!-- 'width: 100%' in css generates a bug -->
-                <image xlink:href="static/munich.png" width="100%" preserveAspectRatio="none" />   
-            </svg>
+            <!-- 'width: 100%' in css generates a bug -->
+            <image src="static/munich.png" width="100%" preserveAspectRatio="none" />   
 
             <!-- header -->
             <h1>Munich-Memory</h1>
@@ -62,6 +64,10 @@ declare
 declare
     %rest:path("/menu")
     %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function page:menu()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
@@ -69,7 +75,7 @@ declare
         
         <head>
             <title>Munich-Memory</title>
-            <link rel="stylesheet" href="static/styles.css" />
+            <link rel="stylesheet" type="text/css" href="static/styles.css"/>
         </head>
 
         <body class="background">
@@ -98,6 +104,10 @@ declare
 declare
     %rest:path("/create-game")
     %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function page:createGame()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
@@ -105,7 +115,7 @@ declare
 
         <head>
             <title>Munich-Memory</title>
-            <link rel="stylesheet" href="static/styles.css" />
+            <link rel="stylesheet" type="text/css" href="static/styles.css"/>
         </head>
 
         <body class="background">
@@ -149,6 +159,10 @@ declare
 declare
     %rest:path("/load-game")
     %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function page:loadGame()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
@@ -156,7 +170,7 @@ declare
 
         <head>
             <title>Munich-Memory</title>
-            <link rel="stylesheet" href="static/styles.css" />
+            <link rel="stylesheet" type="text/css" href="static/styles.css"/>
         </head>
 
         <body class="background">
@@ -169,14 +183,17 @@ declare
 declare
     %rest:path("/highscore")
     %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function page:highscore()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     <html xmlns="http://www.w3.org/1999/xhtml">
-aa
         <head>
             <title>Munich-Memory</title>
-            <link rel="stylesheet" href="static/styles.css" />
+            <link rel="stylesheet" type="text/css" href="static/styles.css"/>
         </head>
             
         <body class="background">

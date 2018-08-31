@@ -32,7 +32,7 @@ h1#header {
 }
 
 .background {
-    background-image: url(silhouette-of-munich.png);
+    background-image: url(silhouette_of_munich.png);
     background-size: 100% 50%;
     background-repeat: no-repeat;
     background-position: bottom;    
