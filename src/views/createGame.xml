@@ -2,6 +2,7 @@
     
     <!-- header -->
     <h1>New Game</h1>
+    <a href="http://localhost:8984/menu"><button class="back" type="button">Menu</button></a>
     
     <div class="unameforms">
         <form action="localhost:8984/game/create" method="post">

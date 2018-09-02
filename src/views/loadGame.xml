@@ -1,3 +1,8 @@
 <body class="background">
+    <h1>Load Game</h1>
+    <a href="http://localhost:8984/menu"><button class="back" type="button">Menu</button></a>
     
+    <div class="selectfile">
+        <p>Choose a game:</p>
+    </div>
 </body>
