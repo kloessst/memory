@@ -1,0 +1,31 @@
+<body class="background">
+    
+    <!-- header -->
+    <h1>New Game</h1>
+    
+    <div xmlns:xf="http://www.w3.org/2002/xforms">
+        <xforms>
+            
+            <model>
+                <instance>
+                    <person>
+                        <fname/>
+                        <lname/>
+                    </person>
+                </instance>
+                <submission id="form1" method="get" action="submit.asp"/>
+            </model>
+            
+            <input ref="fname">
+                <label>First Name</label></input><br />
+            
+            <input ref="lname">
+                <label>Last Name</label></input><br /><br />
+            
+            <submit submission="form1">
+                <label>Submit</label></submit>
+        </xforms>
+    </div>
+    <image src="static/Silhouette_of_Munich.png" height="50%" width="100%" x="0" ></image>
+    
+</body>
