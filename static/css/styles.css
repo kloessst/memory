@@ -1,3 +1,21 @@
+.unameforms{
+    margin-bottom: 25%;
+    margin-left: 25%;
+    color: #D8D8D8;
+}
+.cardsizeselect{
+    width: 150px;
+    margin-left: 300px;
+    margin-top: -198px;
+    color: #D8D8D8;
+}
+.playersizeselect{
+    width: 150px;
+    margin-left: 600px;
+    margin-top: -170px;
+    color: #D8D8D8
+}
+
 html, body {
     width: 100%;
     height: 100%;

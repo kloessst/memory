@@ -3,37 +3,39 @@
     <!-- header -->
     <h1>New Game</h1>
     
-    <div>
+    <div class="unameforms">
         <form action="localhost:8984/game/create" method="post">
             <div>
+                <p>User name:</p>
                 <label for="username1">Player 1</label>
-                <input type="text" id="username1" name="username1"/>
+                <input type="text" id="username1" name="username1"/><br/>
                 <label for="username1">Player 2</label>
-                <input type="text" id="username2" name="username2"/>
+                <input type="text" id="username2" name="username2"/><br/>
                 <label for="username1">Player 3</label>
-                <input type="text" id="username3" name="username3"/>
+                <input type="text" id="username3" name="username3"/><br/>
                 <label for="username1">Player 4</label>
-                <input type="text" id="username4" name="username4"/>
+                <input type="text" id="username4" name="username4"/><br/>
             </div>
-            <div>
+            <div class ="cardsizeselect">
+                <p>Cards:</p>
                 <input type="radio" id="tiny" name="numberOfCards" value="12"/>
-                <label for="tiny">tiny (12 cards)</label> 
+                <label for="tiny">tiny (12 cards)</label><br/>
                 <input type="radio" id="middle" name="numberOfCards" value="20" checked="checked"/>
-                <label for="middle">middle (20 cards)</label>
+                <label for="middle">middle (20 cards)</label><br/>
                 <input type="radio" id="big" name="numberOfCards" value="28"/>
-                <label for="big">big (28 cards)</label> 
+                <label for="big">big (28 cards)</label><br/>
             </div>
-            <div>
+            <div class = "playersizeselect">
+                <p>Player:</p>
                 <select name="numberOfPlayers" >
                     <option value="1">1 Player</option>
                     <option value="2">2 Players</option>
                     <option value="3">3 Players</option>
                     <option value="4">4 Players</option>
-                </select>
-            </div>
-            <div>
+                </select><br/>
                 <button type="submit">Start Game!</button>
             </div>
+            
         </form>
     </div>  
 </body>
