@@ -1,0 +1,14 @@
+<body class="background">
+    
+    <!-- header -->
+    <a id="header" href="http://localhost:8984/" style="text-decoration:none;">
+        <h1>Munich-Memory</h1>
+    </a>
+    
+    <!-- menu -->
+    <table class="menu-table">
+        <tr><td><a href="http://localhost:8984/create-game" style="text-decoration:none;"><div>New Game</div></a></td></tr>
+        <tr><td><a href="http://localhost:8984/load-game" style="text-decoration:none;"><div>Load Game</div></a></td></tr>
+        <tr><td><a href="http://localhost:8984/highscore" style="text-decoration:none;"><div>Highscore</div></a></td></tr>
+    </table>    
+</body>

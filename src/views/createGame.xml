@@ -25,7 +25,5 @@
             <submit submission="form1">
                 <label>Submit</label></submit>
         </xforms>
-    </div>
-    <image src="static/Silhouette_of_Munich.png" height="50%" width="100%" x="0" ></image>
-    
+    </div>  
 </body>
