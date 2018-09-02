@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- onclick: move to menu -->
+    <a href="http://localhost:8984/menu">
+        <g>
+            <rect rx="100%" ry="100%" />
+            <text x="50%" y="50%">Play ⇪</text>
+        </g>
+    </a>
+</svg>
