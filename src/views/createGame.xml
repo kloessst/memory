@@ -3,27 +3,37 @@
     <!-- header -->
     <h1>New Game</h1>
     
-    <div xmlns:xf="http://www.w3.org/2002/xforms">
-        <xforms>
-            
-            <model>
-                <instance>
-                    <person>
-                        <fname/>
-                        <lname/>
-                    </person>
-                </instance>
-                <submission id="form1" method="get" action="submit.asp"/>
-            </model>
-            
-            <input ref="fname">
-                <label>First Name</label></input><br />
-            
-            <input ref="lname">
-                <label>Last Name</label></input><br /><br />
-            
-            <submit submission="form1">
-                <label>Submit</label></submit>
-        </xforms>
+    <div>
+        <form action="localhost:8984/game/create" method="post">
+            <div>
+                <label for="username1">Player 1</label>
+                <input type="text" id="username1" name="username1"/>
+                <label for="username1">Player 2</label>
+                <input type="text" id="username2" name="username2"/>
+                <label for="username1">Player 3</label>
+                <input type="text" id="username3" name="username3"/>
+                <label for="username1">Player 4</label>
+                <input type="text" id="username4" name="username4"/>
+            </div>
+            <div>
+                <input type="radio" id="tiny" name="numberOfCards" value="12"/>
+                <label for="tiny">tiny (12 cards)</label> 
+                <input type="radio" id="middle" name="numberOfCards" value="20" checked="checked"/>
+                <label for="middle">middle (20 cards)</label>
+                <input type="radio" id="big" name="numberOfCards" value="28"/>
+                <label for="big">big (28 cards)</label> 
+            </div>
+            <div>
+                <select name="numberOfPlayers" >
+                    <option value="1">1 Player</option>
+                    <option value="2">2 Players</option>
+                    <option value="3">3 Players</option>
+                    <option value="4">4 Players</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Start Game!</button>
+            </div>
+        </form>
     </div>  
 </body>
