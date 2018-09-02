@@ -91,6 +91,8 @@ declare
                 <tr><td><a href="http://localhost:8984/load-game" style="text-decoration:none;"><div>Load Game</div></a></td></tr>
                 <tr><td><a href="http://localhost:8984/highscore" style="text-decoration:none;"><div>Highscore</div></a></td></tr>
             </table>
+            
+            <image src="static/Silhouette_of_Munich.png" height="50%" width="100%" x="0" ></image>
 
         </body>
 
@@ -146,6 +148,7 @@ declare
                     <label>Submit</label></submit>
                 </xforms>
             </div>
+            <image src="static/Silhouette_of_Munich.png" height="50%" width="100%" x="0" ></image>
 
         </body>
 
