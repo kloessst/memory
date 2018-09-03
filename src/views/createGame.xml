@@ -4,7 +4,7 @@
     <h1>New Game</h1>
     
     <div>
-        <form action="localhost:8984/game/create" method="post">
+        <form action="/createGame" method="post">
             <div>
                 <label for="username1">Player 1</label>
                 <input type="text" id="username1" name="username1"/>
