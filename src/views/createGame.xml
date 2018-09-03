@@ -1,8 +1,9 @@
 <body class="background">
     
     <!-- header -->
-    <h1>New Game</h1>
-    <a href="http://localhost:8984/menu"><button class="back" type="button">Menu</button></a>
+    <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
+        <h1>Munich-Memory ↠ New Game</h1>
+    </a>
     
     <div class="unameforms">
         <form action="localhost:8984/game/create" method="post">
