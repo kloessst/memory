@@ -6,6 +6,7 @@
         <title>Munich-Memory</title>
         <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
         
+        
         <!-- Define the XForms model -->
         <xf:model>
             <xf:instance xmlns="">
@@ -33,11 +34,47 @@
     <body class="background">
         
         <!-- Header -->
-        <h1>New Game</h1>
+        
+        <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
+            <h1>Munich-Memory ↠ New Game</h1>
+        </a>
+        
+        <!-- Choose the usernames, input is only shown if the number of players matches -->
+        <div class="unameforms">
+        <xf:label>User name:</xf:label><br/><br/>
+        <xf:repeat nodeset="/data/Players/Player">
+            <xf:input ref="." incremental="true">
+                <xf:label>
+                    <xf:output value="concat('Player ',position(),':')"/>
+                </xf:label>
+            </xf:input>
+        </xf:repeat>
+        </div>
+        
+        <!-- Choose the game size -->
+        <div class="cardsizeselect">
+            <xf:select1 ref="/data/numberOfCards" appearance="full" >  
+                <xf:label>Game size:</xf:label><br/><br/>
+                <xf:item>
+                    <xf:label>small (12 cards)</xf:label>
+                    <xf:value>12</xf:value> 
+                </xf:item>
+                <xf:item>
+                    <xf:label>medium (20 cards)</xf:label>
+                    <xf:value>20</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>big (28 cards)</xf:label>
+                    <xf:value>28</xf:value>
+                </xf:item>
+            </xf:select1>
+        </div>
+        
         
         <!-- Choose the number of players -->
+        <div class="playersizeselect">
         <xf:select1 ref="/data/numberOfPlayers">  
-            <xf:label>Number of Players:</xf:label>
+            <xf:label>Number of Players:</xf:label><br/><br/>  
             <xf:item>
                 <xf:label>1 Player</xf:label>
                 <xf:value>1</xf:value> 
@@ -55,36 +92,14 @@
                 <xf:value>4</xf:value>
             </xf:item>
         </xf:select1>
-        
-        <!-- Choose the usernames, input is only shown if the number of players matches -->
-        <xf:repeat nodeset="/data/Players/Player">
-            <xf:input ref="." incremental="true">
-                <xf:label>
-                    <xf:output value="concat('Player ',position(),':')"/>
-                </xf:label>
-            </xf:input>
-        </xf:repeat>
-        
-        <!-- Choose the game size -->
-        <xf:select1 ref="/data/numberOfCards" appearance="full" >  
-            <xf:label>Game size:</xf:label>
-            <xf:item>
-                <xf:label>small (12 cards)</xf:label>
-                <xf:value>12</xf:value> 
-            </xf:item>
-            <xf:item>
-                <xf:label>medium (20 cards)</xf:label>
-                <xf:value>20</xf:value>
-            </xf:item>
-            <xf:item>
-                <xf:label>big (28 cards)</xf:label>
-                <xf:value>28</xf:value>
-            </xf:item>
-        </xf:select1>
+            
+            <br/><br/><br/>   
         
         <xf:submit submission="submit">
             <xf:label>Start Game!</xf:label>
         </xf:submit>
+        
+        </div>
         
     </body>
 </html>

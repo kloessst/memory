@@ -2,17 +2,19 @@
     margin-bottom: 25%;
     margin-left: 25%;
     color: #D8D8D8;
+    width: 150px;
 }
 .cardsizeselect{
-   
-    margin-left: 32%;
-    margin-top: -18.5%;
+    margin-left: 48%;
+    margin-top: -29%;
     color: #D8D8D8;
+    width: 150px;
 }
 .playersizeselect{
-    margin-left: 63%;
-    margin-top: -160px;
-    color: #D8D8D8
+    margin-left: 67%;
+    margin-top: -97px;
+    color: #D8D8D8;
+     width: 150px;
 }
 .selectfile{
     margin-top: -50px;
