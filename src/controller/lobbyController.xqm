@@ -2,9 +2,9 @@
  : This module contains some basic examplex for TESTXQ annotations
  : @author BaseX Team
  :)
-module namespace page = 'http://basec.org/modulex/-webpage';
+module namespace lc = 'memory/src/controller/lobbyController';
 
-declare function page:buildHTML($head, $body) 
+declare function lc:buildHTML($head, $body) 
 {
     <html xmlns="http://www.w3.org/1999/xhtml">
         {$head}
@@ -23,12 +23,12 @@ declare
     %output:omit-xml-declaration("no")
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function page:main()
+    function lc:main()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/start.xml")
-    return page:buildHTML($head, $body)
+    return lc:buildHTML($head, $body)
 }; 
 
 (:~
@@ -42,12 +42,12 @@ declare
     %output:omit-xml-declaration("no")
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function page:menu()
+    function lc:menu()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/mainMenu.xml")
-    return page:buildHTML($head, $body)
+    return lc:buildHTML($head, $body)
 };
 
 (:~
@@ -57,16 +57,9 @@ declare
 declare
     %rest:path("/create-game")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function page:createGame()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
+    function lc:createGame()
 {
-    let $head := doc("../views/lobbyHeader.xml")
-    let $body := doc("../views/createGame.xml")
-    return page:buildHTML($head, $body)
+    doc("../views/createGameXForms.xml")
 };
 
 (:~
@@ -80,12 +73,12 @@ declare
     %output:omit-xml-declaration("no")
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function page:loadGame()
+    function lc:loadGame()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/loadGame.xml")
-    return page:buildHTML($head, $body)
+    return lc:buildHTML($head, $body)
 };
 
 declare
@@ -95,10 +88,10 @@ declare
     %output:omit-xml-declaration("no")
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function page:highscore()
+    function lc:highscore()
     as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/highscore.xml")
-    return page:buildHTML($head, $body)
+    return lc:buildHTML($head, $body)
 };

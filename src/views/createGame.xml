@@ -5,8 +5,8 @@
         <h1>Munich-Memory ↠ New Game</h1>
     </a>
     
-    <div class="unameforms">
-        <form action="localhost:8984/game/create" method="post">
+    <div>
+        <form action="/createGame" method="post">
             <div>
                 <p>User name:</p>
                 <label for="username1">Player 1</label>
