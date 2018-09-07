@@ -1,7 +1,6 @@
 xquery version "3.0"  encoding "UTF-8";
 (:~
- : This module contains some basic examplex for TESTXQ annotations
- : @author BaseX Team
+ : This module contains the routes to navigate the lobby
  :)
 
 module namespace lc = "memory/src/controller/lobbyController";
