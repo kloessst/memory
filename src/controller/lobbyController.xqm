@@ -1,16 +1,11 @@
+xquery version "3.0"  encoding "UTF-8";
 (:~
- : This module contains some basic examplex for TESTXQ annotations
- : @author BaseX Team
+ : This module contains the routes to navigate the lobby
  :)
-module namespace lc = 'memory/src/controller/lobbyController';
 
-declare function lc:buildHTML($head, $body) 
-{
-    <html xmlns="http://www.w3.org/1999/xhtml">
-        {$head}
-        {$body}
-    </html>
-};
+module namespace lc = "memory/src/controller/lobbyController";
+
+import module namespace ch = "memory/src/controller/controllerHelper" at "controllerHelper.xqm";
 
 (:~
  : Returns the mainpage
@@ -28,7 +23,7 @@ declare
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/start.xml")
-    return lc:buildHTML($head, $body)
+    return ch:buildHTML($head, $body)
 }; 
 
 (:~
@@ -47,7 +42,7 @@ declare
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/mainMenu.xml")
-    return lc:buildHTML($head, $body)
+    return ch:buildHTML($head, $body)
 };
 
 (:~
@@ -78,7 +73,7 @@ declare
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/loadGame.xml")
-    return lc:buildHTML($head, $body)
+    return ch:buildHTML($head, $body)
 };
 
 declare
@@ -93,5 +88,5 @@ declare
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/highscore.xml")
-    return lc:buildHTML($head, $body)
+    return ch:buildHTML($head, $body)
 };

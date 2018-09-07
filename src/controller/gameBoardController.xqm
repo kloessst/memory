@@ -1,9 +1,9 @@
 xquery version "3.0"  encoding "UTF-8";
 (:~
- : This module is the controller responsible for all basic game interactions
+ : This module is the controller responsible for game board interactions
  :)
  
-module namespace gc = "memory/src/controller/gameController";
+module namespace gbc = "memory/src/controller/gameBoardController";
 
 import module namespace ch = "memory/src/controller/controllerHelper" at "controllerHelper.xqm";
 
@@ -18,7 +18,7 @@ declare
     %output:omit-xml-declaration("no")
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function gc:createGame($body)
+    function gbc:createGame($body)
 {
     $body
 }; 
