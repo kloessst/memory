@@ -5,10 +5,3 @@ module namespace gbf = "memory/src/model/gameBoardFunctions";
 (:
  : REST API and functions encapsulating the game logic
  :)
-
-declare
-    %rest:path("...")
-    %rest:POST
-    %updating
-function gbf:a() {
-};
