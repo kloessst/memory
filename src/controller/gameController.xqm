@@ -1,15 +1,11 @@
+xquery version "3.0"  encoding "UTF-8";
 (:~
  : This module is the controller responsible for all basic game interactions
  :)
-module namespace gc = 'memory/src/controller/gameController';
+ 
+module namespace gc = "memory/src/controller/gameController";
 
-declare function gc:buildHTML($head, $body) 
-{
-    <html xmlns="http://www.w3.org/1999/xhtml">
-        {$head}
-        {$body}
-    </html>
-};
+import module namespace ch = "memory/src/controller/controllerHelper" at "controllerHelper.xqm";
 
 (:~
  : This route creates a new game with the parameters selected by the user in the new game lobby page.

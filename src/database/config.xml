@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbConfig>
+    <dbName>memoryDB</dbName>
+    <dbGamesTemplate path="games.xml">
+        <games/>
+    </dbGamesTemplate>
+    <dbHighscoresTemplate path="highscores.xml">
+        <highscores>
+            <gameConfig numberOfCards="12"/>
+            <gameConfig numberOfCards="20"/>
+            <gameConfig numberOfCards="28"/>
+        </highscores>
+    </dbHighscoresTemplate>
+</dbConfig>
