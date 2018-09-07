@@ -1,10 +1,9 @@
 xquery version "3.0"  encoding "UTF-8";
-
 (:~
  : This module offers helper functions for the controllers
  :)
  
-module namespace ch = 'memory/src/controller/controllerHelper';
+module namespace ch = "memory/src/controller/controllerHelper";
 
 import module namespace request = "http://exquery.org/ns/request";
  

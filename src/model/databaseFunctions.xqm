@@ -17,8 +17,11 @@ declare
     %rest:path("/model/database/init")
     %rest:POST
     %updating
-function dbf:initDatabase() {   
-    db:create($dbf:dbName, ($dbf:gamesTemplate, $dbf:highscoresTemplate), ($dbf:gamesPath, $dbf:highscoresPath))
+function dbf:initDatabase() {
+    if (db:exists($dbf:dbName)) then
+        ()
+    else 
+        db:create($dbf:dbName, ($dbf:gamesTemplate, $dbf:highscoresTemplate), ($dbf:gamesPath, $dbf:highscoresPath))
 };
 
 declare
