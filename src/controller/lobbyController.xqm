@@ -77,16 +77,9 @@ declare
 };
 
 declare
-    %rest:path("/highscore")
+    %rest:path("/highscore/{$numberOfCards}")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
-    function lc:highscore()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
+    function lc:highscore($numberOfCards)
 {
-    let $head := doc("../views/lobbyHeader.xml")
-    let $body := doc("../views/highscore.xml")
-    return ch:buildHTML($head, $body)
+    doc("../views/highscoreXFORMS.xml")
 };
