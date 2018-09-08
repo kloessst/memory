@@ -10,14 +10,15 @@ declare variable $dbf:highscoresTemplate := doc("../database/config.xml")/dbConf
 
 (:
  : REST API for functions initializing/deleting the database. Creates games and highscores container files
- : using the database config file. Contains functions to clear parts or the whole database.
+ : using the database config file. Contains functions interacting with the database.
  :)
 
 declare
     %rest:path("/model/database/init")
     %rest:POST
     %updating
-function dbf:initDatabase() {
+    function dbf:initDatabase() 
+{
     if (db:exists($dbf:dbName)) then
         ()
     else 
@@ -28,6 +29,16 @@ declare
     %rest:path("/model/database/drop")
     %rest:POST
     %updating
-function dbf:dropDatabase() {   
+    function dbf:dropDatabase() 
+{   
     db:drop($dbf:dbName)
+};
+
+declare 
+    function dbf:gameIdExists($id as xs:string) as xs:boolean 
+{   
+    if (db:open($dbf:dbName, $dbf:gamesPath)/games/game/@id[.=$id]) then
+        true()
+    else
+        false()
 };
