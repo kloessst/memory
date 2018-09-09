@@ -23,7 +23,7 @@ declare
         if (fn:string($result/@status) = "200") then
             web:redirect($redirection)
         else 
-            ()
+            (<failedToInitDB></failedToInitDB>)
 };
 
 (:~
