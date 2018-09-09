@@ -30,7 +30,7 @@ declare
     </html>
 };
 
-declare %private 
+declare
     function ch:buildURI($path as xs:string)
 {
     request:scheme() || "://" || request:hostname() || ":" || request:port() || $path

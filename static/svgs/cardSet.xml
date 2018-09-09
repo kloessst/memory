@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cardSet>
+    <card id="1">
+        <file>1.jpeg</file>
+    </card>
+    <card id="2">
+        <file>2.jpeg</file>
+    </card>
+    <card id="1">
+        <file>3.jpeg</file>
+    </card>
+    <card id="4">
+        <file>4.jpeg</file>
+    </card>
+    <card id="5">
+        <file>5.jpeg</file>
+    </card>
+    <card id="6">
+        <file>6.jpeg</file>
+    </card>
+    <card id="7">
+        <file>7.jpeg</file>
+    </card>
+    <card id="8">
+        <file>8.jpeg</file>
+    </card>
+    <card id="9">
+        <file>9.jpeg</file>
+    </card>
+    <card id="10">
+        <file>10.jpeg</file>
+    </card>
+    <card id="11">
+        <file>11.jpeg</file>
+    </card>
+    <card id="12">
+        <file>12.jpeg</file>
+    </card>
+    <card id="13">
+        <file>13.jpeg</file>
+    </card>
+    <card id="14">
+        <file>14.jpeg</file>
+    </card>
+</cardSet>
