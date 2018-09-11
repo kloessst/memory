@@ -38,6 +38,14 @@ declare
 };
 
 declare
+    %rest:path("/model/database/getGame/{$id}")
+    %rest:GET
+    function dbf:dropDatabase($id as xs:string) 
+{   
+    $dbf:games/game[@id = $id]
+};
+
+declare
     %rest:path("/model/database/createGame")
     %rest:POST("{$body}")
     %updating

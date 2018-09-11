@@ -22,7 +22,7 @@ declare
     let $gameId := $game/game/@id/data()
     let $redirection := "/game/" || $gameId
     let $response := ch:callModelFunction("post", $pathToSave, $game)
-    return web:redirect($redirection)
+    return rest:redirect($redirection)
 };
 
 declare
@@ -33,6 +33,24 @@ declare
     %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function gc:createGamePage($id as xs:string)
-{
-    <ok></ok>
+{   
+    let $xsltPath := "../model/xslt/stateToHTML.xsl"
+    let $getGamePath := "/model/database/getGame/" || $id
+    let $game := ch:callModelFunction("get", $getGamePath, ())[2]
+    return xslt:transform($game, $xsltPath)
+};
+
+declare
+    %rest:path("/game/{$gameId}/revealCard/{$cardId}")
+    %rest:GET
+    %output:method("xhtml")
+    %output:omit-xml-declaration("no")
+    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
+    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    function gc:revealCard($gameId as xs:string, $cardId as xs:int)
+{   
+    let $xsltPath := "../model/xslt/stateToHTML.xsl"
+    let $getGamePath := "/model/database/getGame/" || $gameId
+    let $game := ch:callModelFunction("get", $getGamePath, ())[2]
+    return $cardId
 }; 
