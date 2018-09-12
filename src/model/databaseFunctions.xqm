@@ -56,9 +56,9 @@ declare
 };
 
 declare
-    %rest:path("/model/database/getGame")
+    %rest:path("/model/database/getHighscore/{$numberOfCards}")
     %rest:GET
-    function dbf:getGame()
+    function dbf:getGame($numberOfCards)
 {
-    $dbf:games
+    $dbf:games/game/[@numberOfCards = $numberOfCards]
 };

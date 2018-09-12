@@ -82,7 +82,7 @@ declare
     function lc:highscore($numberOfCards)
 {
     let $head := doc("../views/lobbyHeader.xml")
-    let $getGamesPath := "/model/database/getGame"
-    let $body := ch:callModelFunction("get", $getGamesPath, ())
+    let $getHighscorePath := "/model/database/getHighscore/{$numberOfCards}"
+    let $body := ch:callModelFunction("get", $getHighscorePath, ())
     return ch:buildHTML($head, $body)
 };
