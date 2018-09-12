@@ -22,7 +22,7 @@ declare
     let $gameId := $game/game/@id/data()
     let $redirection := "/game/" || $gameId
     let $response := ch:callModelFunction("post", $pathToSave, $game)
-    return rest:redirect($redirection)
+    return web:redirect($redirection)
 };
 
 declare
@@ -49,8 +49,9 @@ declare
     %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function gc:revealCard($gameId as xs:string, $cardId as xs:int)
 {   
-    let $xsltPath := "../model/xslt/stateToHTML.xsl"
+    let $handleRevealPath := "../model/xslt/stateToHTML.xsl"
     let $getGamePath := "/model/database/getGame/" || $gameId
     let $game := ch:callModelFunction("get", $getGamePath, ())[2]
-    return $cardId
+    let $updatedGame := ch:callModelFunction("get", $handleRevealPath, $game)[2]
+    return $updatedGame
 }; 
