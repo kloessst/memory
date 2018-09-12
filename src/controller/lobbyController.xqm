@@ -81,5 +81,8 @@ declare
     %rest:GET
     function lc:highscore($numberOfCards)
 {
-    doc("../views/highscoreXFORMS.xml")
+    let $head := doc("../views/lobbyHeader.xml")
+    let $getGamesPath := "/model/database/getGame"
+    let $body := ch:callModelFunction("get", $getGamesPath, ())
+    return ch:buildHTML($head, $body)
 };

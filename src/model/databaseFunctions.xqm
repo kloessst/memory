@@ -54,3 +54,11 @@ declare
     else
         false()
 };
+
+declare
+    %rest:path("/model/database/getGame")
+    %rest:GET
+    function dbf:getGame()
+{
+    $dbf:games
+};
