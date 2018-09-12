@@ -13,20 +13,20 @@
                 <data>
                     <numberOfCards>20</numberOfCards>
                     <numberOfPlayers>1</numberOfPlayers>
-                    <Players>
-                        <Player/>
-                        <Player/>
-                        <Player/>
-                        <Player/>
-                    </Players>
+                    <players>
+                        <player/>
+                        <player/>
+                        <player/>
+                        <player/>
+                    </players>
                 </data>
             </xf:instance>   
             <xf:bind id="numberOfCards" nodeset="/data/numberOfCards" type="xs:int"/>
             <xf:bind id="numberOfPlayers" nodeset="/data/numberOfPlayers" type="xs:int"/>
-            <xf:bind id="player1" nodeset="/data/Players/Player[1]" type="xs:string"/>
-            <xf:bind id="player2" nodeset="/data/Players/Player[2]" type="xs:string" relevant="/data/numberOfPlayers &gt; 1"/>
-            <xf:bind id="player3" nodeset="/data/Players/Player[3]" type="xs:string" relevant="/data/numberOfPlayers &gt; 2"/>
-            <xf:bind id="player4" nodeset="/data/Players/Player[4]" type="xs:string" relevant="/data/numberOfPlayers &gt; 3"/>
+            <xf:bind id="player1" nodeset="/data/players/player[1]" type="xs:string" required="true()"/>
+            <xf:bind id="player2" nodeset="/data/players/player[2]" type="xs:string" relevant="/data/numberOfPlayers &gt; 1" required="true()"/>
+            <xf:bind id="player3" nodeset="/data/players/player[3]" type="xs:string" relevant="/data/numberOfPlayers &gt; 2" required="true()"/>
+            <xf:bind id="player4" nodeset="/data/players/player[4]" type="xs:string" relevant="/data/numberOfPlayers &gt; 3" required="true()"/>
             <xf:submission id="submit" method="post" action="/createGame"/>
         </xf:model>
     </head>
@@ -42,13 +42,13 @@
         <!-- Choose the usernames, input is only shown if the number of players matches -->
         <div class="unameforms">
         <xf:label>User name:</xf:label><br/><br/>
-        <xf:repeat nodeset="/data/Players/Player">
-            <xf:input ref="." incremental="true">
-                <xf:label>
-                    <xf:output value="concat('Player ',position(),':')"/>
-                </xf:label>
-            </xf:input>
-        </xf:repeat>
+            <xf:repeat nodeset="/data/players/player">
+                <xf:input ref="." incremental="true">
+                    <xf:label>
+                        <xf:output value="concat('Player ',position(),':')"/>
+                    </xf:label>
+                </xf:input>
+            </xf:repeat>
         </div>
         
         <!-- Choose the game size -->
@@ -73,32 +73,31 @@
         
         <!-- Choose the number of players -->
         <div class="playersizeselect">
-        <xf:select1 ref="/data/numberOfPlayers">  
-            <xf:label>Number of Players:</xf:label><br/><br/>  
-            <xf:item>
-                <xf:label>1 Player</xf:label>
-                <xf:value>1</xf:value> 
-            </xf:item>
-            <xf:item>
-                <xf:label>2 Players</xf:label>
-                <xf:value>2</xf:value>
-            </xf:item>
-            <xf:item>
-                <xf:label>3 Players</xf:label>
-                <xf:value>3</xf:value>
-            </xf:item>
-            <xf:item>
-                <xf:label>4 Players</xf:label>
-                <xf:value>4</xf:value>
-            </xf:item>
-        </xf:select1>
-            
+            <xf:select1 ref="/data/numberOfPlayers">  
+                <xf:label>Number of Players:</xf:label><br/><br/>  
+                <xf:item>
+                    <xf:label>1 Player</xf:label>
+                    <xf:value>1</xf:value> 
+                </xf:item>
+                <xf:item>
+                    <xf:label>2 Players</xf:label>
+                    <xf:value>2</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>3 Players</xf:label>
+                    <xf:value>3</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>4 Players</xf:label>
+                    <xf:value>4</xf:value>
+                </xf:item>
+            </xf:select1>
+                
             <br/><br/><br/>   
-        
-        <xf:submit submission="submit">
-            <xf:label>Start Game!</xf:label>
-        </xf:submit>
-        
+            
+            <xf:submit submission="submit">
+                <xf:label>Start Game!</xf:label>
+            </xf:submit>      
         </div>
         
     </body>

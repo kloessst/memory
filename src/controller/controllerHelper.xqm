@@ -13,11 +13,12 @@ import module namespace request = "http://exquery.org/ns/request";
 declare 
     function ch:callModelFunction($method as xs:string, $path as xs:string, $body as item()?) 
 {   
+    let $request := 
+        <http:request method="{$method}">
+            <http:body media-type="application/xml"/>
+        </http:request>
     let $uri := ch:buildURI($path)
-    return http:send-request(
-        <http:request method="{$method}"/>,
-        $uri, $body
-    )
+    return http:send-request($request, $uri, $body)
 };
 
 declare 
@@ -29,7 +30,7 @@ declare
     </html>
 };
 
-declare %private 
+declare
     function ch:buildURI($path as xs:string)
 {
     request:scheme() || "://" || request:hostname() || ":" || request:port() || $path
