@@ -11,15 +11,19 @@ import module namespace dbf = "memory/src/model/databaseFunctions" at "databaseF
 import module namespace ch = "memory/src/controller/controllerHelper" at "../controller/controllerHelper.xqm";
 
 declare
-    %rest:path("/model/game/revealCard/{$cardId}")
-    %rest:POST("{$body}")
-    function gbf:handleCardReveal($body, $cardId as xs:string)
+    %rest:path("/model/{$gameId}/revealCard/{$cardId}")
+    %rest:POST
+    function gbf:handleCardReveal($gameId as xs:string, $cardId as xs:string)
 {
-    $body/game/gameState/phase
+    let $getGamePath := "/model/database/getGame/" || $gameId
+    let $game := ch:callModelFunction("get", $getGamePath, ())[2]/game
+    let $dummy := prof:variables()
+    let $newGame := gbf:alterGameByPhase($game, $cardId)
+    return $newGame
 };
 
 declare %private
-    function gbf:alterGame($game as element(game), $cardId as xs:string) as element(game)
+    function gbf:alterGameByPhase($game as element(game), $cardId as xs:string) as element(game)
 {
     let $phase := $game/gameState/phase
     let $newGame := 
@@ -35,15 +39,21 @@ declare %private
 declare %private
     function gbf:handleRevealPhase0($game as element(game), $cardId as xs:string) as element(game)
 {
-    let $newGameBoard := gbf:alterGameBoard("0", $game/gameState, $cardId)
-    let $newGameState := gbf:alterGamestate("0", $game/gameState, $cardId)
-    return $game
+    let $newGameBoard := gbf:revealCard($game/gameBoard, $cardId)
+    return 
+        $game transform with {
+            replace node gameBoard with $newGameBoard
+        }
 };
 
 declare %private
-    function gbf:alterGameBoard($phase as xs:string,  $gameBoard as element(gameBoard), $cardId as xs:string) 
-    as element(gameBoard)
+    function gbf:revealCard($gameBoard as element(gameBoard), $cardId as xs:string) 
+    as element(gameBoard)  
 {
+    $gameBoard transform with {
+        replace value of node cards/card[@id = $cardId]/@revealed with true()
+    }
+};
 
 declare %private
     function gbf:alterGamestate($phase as xs:string,  $gameState as element(gameState), $cardId as xs:string) 
@@ -66,12 +76,10 @@ declare %private
         else
             $gameState/secondGuess
    return 
-        $gameState update {
-            replace node state with $state
-        } update {
-            replace node firstGues with $firstGuess
-        } update {
+        $gameState transform with {
+            replace node state with $state,
+            replace node firstGues with $firstGuess,
             replace node secondGuess with $secondGuess
-        } 
+        }
 };
 
