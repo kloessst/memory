@@ -32,7 +32,7 @@
             <xsl:variable name="spielerXPos" select="xslth:calcXPos(position())"/>
             <xsl:variable name="usernameFill">
                 <xsl:choose>
-                    <xsl:when test="@active = 'true'">
+                    <xsl:when test="@active = true()">
                         <xsl:value-of select="$playerActiveColor"/>
                     </xsl:when>
                     <xsl:otherwise>
@@ -65,7 +65,7 @@
                 <!-- Render card: If card is facedown use cardFaceDown template, otherwise
                         use the card template given by the motiv attribute-->
                 <xsl:choose>
-                    <xsl:when test="@revealed = 'true'">
+                    <xsl:when test="@revealed = true() or @solved = true()">
                         <svg x="{$cardXPos}" y="{$cardYPos}" width="{$cardWidth}" height="{$cardHeight}">
                             <image href="{$graphic}" height="100%" width="100%"/>
                         </svg>
