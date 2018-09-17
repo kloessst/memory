@@ -111,7 +111,7 @@ declare %private
             let $column := xs:int(($count - 1) mod $boardColumns)
             let $graphic := doc("../../static/svgs/cardSet.xml")//card[$id]/file/text()
             return
-                <card id="{$count}" cardId="{$id}" row="{$row}" column="{$column}" solved="{false()}" revealed="{false()}">
+                <card id="{$count}" pairId="{$id}" row="{$row}" column="{$column}" solved="{false()}" revealed="{false()}">
                     <graphic>{$graphic}</graphic>
                 </card>
     }</cards>

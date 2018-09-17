@@ -38,12 +38,30 @@ declare
 };
 
 declare
+    %rest:path("/model/database/getGame/{$id}")
+    %rest:GET
+    function dbf:getGame($id as xs:string) 
+{   
+    $dbf:games/game[@id = $id]
+};
+
+declare
     %rest:path("/model/database/createGame")
     %rest:POST("{$body}")
     %updating
     function dbf:createGame($body)
 {   
     insert node $body as last into $dbf:games
+};
+
+declare
+    %rest:path("/model/database/replaceGame")
+    %rest:POST("{$body}")
+    %updating
+    function dbf:replaceGame($body)
+{   
+    let $gameId := $body/game/@id
+    return replace node $dbf:games/game[@id = $gameId] with $body/game
 };
 
 declare 
