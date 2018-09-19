@@ -53,7 +53,7 @@
     </xsl:template>
     
     <xsl:template match="gameBoard">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
+        <svg xmlns="http://www.w3.org/2000/svg" width="{xslth:calcXPos(@columns + 1)}" height="{xslth:calcYPos(@rows + 1)}">
         
             <!-- Iterate over every card -->
             <xsl:for-each select="cards/card">

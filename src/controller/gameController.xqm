@@ -37,16 +37,14 @@ declare
     let $xsltPath := "../model/xslt/stateToHTML.xsl"
     let $getGamePath := "/model/database/getGame/" || $gameId
     let $game := ch:callModelFunction("get", $getGamePath, ())[2]
-    return xslt:transform($game, $xsltPath)
+    let $body := xslt:transform($game, $xsltPath)
+    let $head := doc("../views/lobbyHeader.xml")
+    return ch:buildHTML($head, $body)
 };
 
 declare
     %rest:path("/game/{$gameId}/revealCard/{$cardId}")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function gc:revealCard($gameId as xs:string, $cardId as xs:string)
 {   
     let $redirection := "/game/" || $gameId
@@ -54,7 +52,5 @@ declare
     let $replaceGamePath := "/model/database/replaceGame"
     let $updatedGame := ch:callModelFunction("post", $handleRevealPath, ())[2]
     let $replaceResponse := ch:callModelFunction("post", $replaceGamePath, $updatedGame)[2]
-    let $xsltPath := "../model/xslt/stateToHTML.xsl"
-    return xslt:transform($updatedGame, $xsltPath)
-    (:return web:redirect($redirection):)
+    return web:redirect($redirection)
 }; 

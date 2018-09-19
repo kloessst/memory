@@ -200,10 +200,14 @@ declare %private
     let $oldActivePlayerPos := count($players/player[@active = true()]/preceding-sibling::*) + 1
     let $newActivePlayerPos := ($oldActivePlayerPos mod $numberOfPlayers) + 1
     let $dummy := prof:variables()
-    return $players transform with {
-        replace value of node player[$oldActivePlayerPos]/@active with false(),
-        replace value of node player[$newActivePlayerPos]/@active with true()
-    }
+    return 
+        if ($numberOfPlayers = 1) then
+            $players
+        else
+            $players transform with {
+                replace value of node player[$oldActivePlayerPos]/@active with false(),
+                replace value of node player[$newActivePlayerPos]/@active with true()
+            }
 };
 
 declare %private
