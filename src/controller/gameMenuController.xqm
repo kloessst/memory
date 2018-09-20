@@ -8,16 +8,32 @@ module namespace gmc = "memory/src/controller/gameMenuController";
 import module namespace ch = "memory/src/controller/controllerHelper" at "controllerHelper.xqm";
 
 (:~
- : This route saves a running game. The whole gamestate is saved together with a name and a password
+ : This route saves a running game. The whole gamestate is saved together with a name and a password,
  : which is needed to run the game again.
- : @return HTML page
+ : @return redirects to primary game page
  :)
 declare
-    %rest:path("/gameMenu/save")
-    %rest:POST("{$body}")
-    function gmc:saveGame($body)
+    %rest:path("/gameMenu/saveGame")
+    %rest:POST
+    %rest:form-param("gameId","{$gameId}")
+    %rest:form-param("gameName","{$gameName}", "defaultName")
+    %rest:form-param("gamePassword","{$gamePassword}")
+    function gmc:saveGame($gameId as xs:string, $gameName as xs:string, $gamePassword as xs:string)
 {
-    let $saveGamePath := "/model/game/save"
-    let $game := ch:callModelFunction("post", $saveGamePath, $body)[2]
-    return $body
+    let $saveGamePath := "/model/gameMenu/saveGame"
+    let $redirection := "/game/" || $gameId
+    let $savedGameData := gmc:savedGameParamsToXML($gameId, $gameName, $gamePassword)
+    let $game := ch:callModelFunction("post", $saveGamePath, $savedGameData)[2]
+    return web:redirect($redirection)
+};
+
+declare %private
+    function gmc:savedGameParamsToXML($gameId as xs:string, $gameName as xs:string, $gamePassword as xs:string) 
+    as element(savedGameData)
+{
+    <savedGameData>
+        <gameId>{$gameId}</gameId>
+        <gameName>{$gameName}</gameName>
+        <gamePassword>{$gamePassword}</gamePassword>
+    </savedGameData>
 };

@@ -33,15 +33,15 @@
             
             <dialog id="meinDialog"> 
                 <h2>Save Game</h2> 
-                <form action="/gameMenu/save" method="post">
+                <form action="/gameMenu/saveGame" method="post">
                     <input type="hidden" id="gameId" name="gameId" value="{$gameId}"/>
                     <div>
                         <label for="gameName">Enter a name for the saved game: </label>
-                        <input id="gameName" type="text" /> 
+                        <input id="gameName" name="gameName" type="text" /> 
                     </div>
                     <div>
                         <label for="gamePassword">Enter a password:</label>
-                        <input id="gamePassword" type="password" /> 
+                        <input id="gamePassword" name="gamePassword" type="password" /> 
                     </div>
                     <a href="#" class="button">Cancel</a>
                     <button type="submit">Confirm</button>
