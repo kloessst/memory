@@ -24,7 +24,7 @@ declare
 declare 
     function ch:buildHTML($head, $body) 
 {
-    <html xmlns="http://www.w3.org/1999/xhtml">
+    <html>
         {$head}
         {$body}
     </html>

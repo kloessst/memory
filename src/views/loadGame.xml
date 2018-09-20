@@ -1,7 +1,10 @@
 <body class="background">
-    <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
-        <h1>Munich-Memory ↠ Load Game</h1>
-    </a>
+    <h1>
+        <a id="header" href="/menu" style="text-decoration:none;color: inherit">
+            Munich-Memory
+        </a>
+        ↠ Load Game
+    </h1>
     
     <div class="selectfile">
         <p>Choose a game:</p>

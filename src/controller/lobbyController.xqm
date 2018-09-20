@@ -14,12 +14,9 @@ import module namespace ch = "memory/src/controller/controllerHelper" at "contro
 declare
     %rest:path("/")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:main()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/start.xml")
@@ -33,12 +30,9 @@ declare
 declare
     %rest:path("/menu")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:menu()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/mainMenu.xml")
@@ -64,12 +58,9 @@ declare
 declare
     %rest:path("/load-game")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:loadGame()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/loadGame.xml")
@@ -79,12 +70,9 @@ declare
 declare
     %rest:path("/highscore")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:highscore()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/highscore.xml")
