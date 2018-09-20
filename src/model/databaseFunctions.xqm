@@ -5,11 +5,14 @@ module namespace dbf = "memory/src/model/databaseFunctions";
 declare variable $dbf:dbName := "memoryDB";
 declare variable $dbf:gamesPath := "games.xml";
 declare variable $dbf:highscoresPath := "highscores.xml";
+declare variable $dbf:savedGamesPath := "savedGames.xml";
 declare variable $dbf:gamesTemplate := doc("../database/config.xml")/dbConfig/dbGamesTemplate/games;
 declare variable $dbf:highscoresTemplate := doc("../database/config.xml")/dbConfig/dbHighscoresTemplate/highscores;
+declare variable $dbf:savedGamesTemplate := doc("../database/config.xml")/dbConfig/dbSavedGamesTemplate/savedGames;
 
 declare variable $dbf:games := db:open("memoryDB", "games.xml")/games;
 declare variable $dbf:higscores := db:open($dbf:dbName, $dbf:highscoresPath)/highscores;
+declare variable $dbf:savedGames := db:open("memoryDB", "savedGames.xml")/savedGames;
 
 (:
  : REST API for functions initializing/deleting the database. Creates games and highscores container files
@@ -25,7 +28,7 @@ declare
     if (db:exists($dbf:dbName)) then
         ()
     else 
-        db:create($dbf:dbName, ($dbf:gamesTemplate, $dbf:highscoresTemplate), ($dbf:gamesPath, $dbf:highscoresPath))
+        db:create($dbf:dbName, ($dbf:gamesTemplate, $dbf:highscoresTemplate, $dbf:savedGamesTemplate), ($dbf:gamesPath, $dbf:highscoresPath, $dbf:savedGamesPath))
 };
 
 declare
@@ -62,6 +65,15 @@ declare
 {   
     let $gameId := $body/game/@id
     return replace node $dbf:games/game[@id = $gameId] with $body/game
+};
+
+declare
+    %rest:path("/model/database/createSaveGame")
+    %rest:POST("{$body}")
+    %updating
+    function dbf:saveGame($body)
+{   
+    insert node $body as last into $dbf:savedGames
 };
 
 declare 
