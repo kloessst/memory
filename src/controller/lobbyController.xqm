@@ -70,7 +70,8 @@ declare
 {
     let $getFinishedGamesPath := "/model/database/getFinishedGames/" || $numberOfCards 
     let $scores := ch:callModelFunction("get", $getFinishedGamesPath, ())[2]/games/game/players/player
-    return lc:createHighscoreList($scores)
+    let $unsorted := lc:createHighscoreList($scores)
+    return lc:sortHighscoreList($unsorted)
 };
 
 declare
@@ -89,6 +90,14 @@ declare
                 </player>
         }
     </highscore>
+};
+
+declare
+    %private
+    function lc:sortHighscoreList($unsorted)
+    as element(highscore)
+{
+    $unsorted
 };
 
 declare
