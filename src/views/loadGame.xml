@@ -1,9 +1,0 @@
-<body class="background">
-    <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
-        <h1>Munich-Memory ↠ Load Game</h1>
-    </a>
-    
-    <div class="selectfile">
-        <p>Choose a game:</p>
-    </div>
-</body>

@@ -39,3 +39,14 @@ declare
     let $result := ch:callModelFunction("post", $path, ())
     return <Dropped></Dropped>
 };
+
+declare
+    %rest:path("/database/initSvg")
+    %rest:GET
+    function dbc:initSvg()
+{   
+    let $xsltPath := "../model/xslt/svgTemplates.xsl"
+    let $file := xslt:transform(<dummy></dummy>, $xsltPath)
+    let $dummy := file:write("../webapp/memory/src/model/xslt/svgElements.svg", $file) 
+    return <ok>Worked</ok>
+};

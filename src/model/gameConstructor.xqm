@@ -34,13 +34,13 @@ declare
     return $game
 };
 
-declare %private
+declare
     function gco:createUniqueGameId($message as xs:string) as xs:string
 {
     let $hash := string(xs:hexBinary(hash:md5($message)))
     return 
-        if (dbf:gameIdExists($hash)) then
-            gco:createUniqueGameId($hash || random:integer())
+        if (ch:db_gameIdExists($hash)) then
+            gco:createUniqueGameId($message || random:integer())
         else
             $hash
 };
@@ -111,7 +111,7 @@ declare %private
             let $column := xs:int(($count - 1) mod $boardColumns)
             let $graphic := doc("../../static/svgs/cardSet.xml")//card[$id]/file/text()
             return
-                <card id="{$count}" cardId="{$id}" row="{$row}" column="{$column}" solved="{false()}" revealed="{false()}">
+                <card id="{$count}" pairId="{$id}" row="{$row}" column="{$column}" solved="{false()}" revealed="{false()}">
                     <graphic>{$graphic}</graphic>
                 </card>
     }</cards>

@@ -1,9 +1,11 @@
 <body class="background">
     
     <!-- header -->
-    <a id="header" href="http://localhost:8984/" style="text-decoration:none;">
-        <h1>Munich-Memory</h1>
-    </a>
+    <h1>
+        <a id="header" href="/" style="text-decoration:none;color: inherit">
+            Munich-Memory
+        </a>
+    </h1>
     
     <!-- menu -->
     <table class="menu-table">
