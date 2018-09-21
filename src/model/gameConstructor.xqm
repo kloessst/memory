@@ -34,13 +34,13 @@ declare
     return $game
 };
 
-declare %private
+declare
     function gco:createUniqueGameId($message as xs:string) as xs:string
 {
     let $hash := string(xs:hexBinary(hash:md5($message)))
     return 
-        if (dbf:gameIdExists($hash)) then
-            gco:createUniqueGameId($hash || random:integer())
+        if (ch:db_gameIdExists($hash)) then
+            gco:createUniqueGameId($message || random:integer())
         else
             $hash
 };

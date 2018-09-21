@@ -58,13 +58,9 @@ declare
 declare
     %rest:path("/load-game")
     %rest:GET
-    %output:method("html")
-    %output:version("5.0")
     function lc:loadGame()
 {
-    let $head := doc("../views/lobbyHeader.xml")
-    let $body := doc("../views/loadGame.xml")
-    return ch:buildHTML($head, $body)
+    doc("../views/loadGameXForms.xml")
 };
 
 declare
@@ -78,3 +74,38 @@ declare
     let $body := doc("../views/highscore.xml")
     return ch:buildHTML($head, $body)
 };
+
+declare
+    %rest:path("/savedGames")
+    %rest:GET
+    function lc:getSavedGames()
+{
+    let $getSavedGamesPath := "/model/database/getAllSavedGames"
+    let $savedGames := ch:callModelFunction("get", $getSavedGamesPath, ())[2]/savedGames 
+    return lc:createSaveGameList($savedGames)
+};
+
+declare
+    %private
+    function lc:createSaveGameList($savedGames as element(savedGames))
+    as element(savedGamesList)
+{
+    <savedGamesList>{
+        for $sGame in $savedGames/savedGame
+            let $gameId := string($sGame/game/@id)
+            let $gameName := $sGame/gameName
+            let $date := $sGame/date
+            return
+                <savedGame>
+                    <gameId>{$gameId}</gameId>
+                    {$gameName}
+                    {$date}
+                </savedGame>
+        }
+        <loadGame>
+            <gameId/>
+            <password/>
+        </loadGame>
+    </savedGamesList>    
+};
+

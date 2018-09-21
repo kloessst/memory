@@ -3,6 +3,7 @@ xquery version "3.0"  encoding "UTF-8";
 module namespace gmf = "memory/src/model/gameMenuFunctions";
 
 import module namespace ch = "memory/src/controller/controllerHelper" at "../controller/controllerHelper.xqm";
+import module namespace gco = "memory/src/model/gameConstructor" at "gameConstructor.xqm";
 
 (:
  : REST API and functions responsible for handling the interactions with the ingame menu
@@ -35,6 +36,18 @@ declare %private
         <date>
             {current-dateTime()}
         </date>
-        {$game}
+        {gmf:changeGameId($game)}
     </savedGame>
+};
+
+declare %private
+    function gmf:changeGameId($game as element(game)) 
+    as element(game)
+{
+    let $message := string-join($game//player/text())
+    let $newGameId := gco:createUniqueGameId($message)
+    return 
+        $game transform with {
+            replace value of node @id with $newGameId
+        }
 };

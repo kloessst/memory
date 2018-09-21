@@ -199,7 +199,6 @@ declare %private
     let $numberOfPlayers := count($players/player)
     let $oldActivePlayerPos := count($players/player[@active = true()]/preceding-sibling::*) + 1
     let $newActivePlayerPos := ($oldActivePlayerPos mod $numberOfPlayers) + 1
-    let $dummy := prof:variables()
     return 
         if ($numberOfPlayers = 1) then
             $players

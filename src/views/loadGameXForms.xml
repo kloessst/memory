@@ -1,0 +1,85 @@
+<?xml-stylesheet href="static/xsltforms/xsltforms.xsl" type="text/xsl"?>
+<?css-conversion no?>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xf="http://www.w3.org/2002/xforms" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ev="http://www.w3.org/2001/xml-events">
+    <head>
+        <title>Munich-Memory</title>
+        <link rel="stylesheet" type="text/css" href="static/css/lobbyStyles.css"/>      
+        
+        <!-- Define the XForms model -->
+        <xf:model>
+            <xf:instance xmlns="" src="/savedGames"/>
+            <xf:submission id="loadGame" method="post" action="/game/load" ref="//loadGame"/>
+        </xf:model>
+    </head>
+    
+    <body class="background">     
+        <!-- Header -->       
+        <h1>
+            <a id="header" href="/menu" style="text-decoration:none;color: inherit">
+                Munich-Memory
+            </a> ↠ Load Game
+        </h1>
+        
+        <div class="savedGamesList">
+            <table>
+                <thead> 
+                    <tr> 
+                        <th>Game Id</th>
+                        <th>Game Name</th>
+                        <th></th> 
+                    </tr> 
+                </thead> 
+                <tbody>
+                    <xf:repeat nodeset="//savedGame">
+                        <xf:var name="current-item" value="."/>
+                        <tr>
+                            <td><xf:output ref="./gameId"/></td>
+                            <td><xf:output ref="./gameName"/></td>
+                            <td>
+                                <xf:trigger>
+                                    <xf:label>Go</xf:label>
+                                    <xf:action ev:event="DOMActivate">
+                                        <xf:setvalue
+                                            ref="//loadGame/gameId" 
+                                            value="$current-item/gameId" />
+                                        <xf:show dialog="insertPassword"/>
+                                    </xf:action>
+                                </xf:trigger>
+                            </td>
+                        </tr>
+                    </xf:repeat>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        <xf:dialog id="insertPassword">
+            <xf:label>Enter the game password. The saved game will be deleted.</xf:label>
+            <xf:secret id="password" ref="//password" incremental="true">
+                <xf:label>Password:</xf:label>
+            </xf:secret>
+            <div>
+                <xf:trigger>
+                    <xf:label>Close</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:setvalue
+                            ref="//loadGame/gameId" 
+                            value="" />
+                        <xf:setvalue
+                            ref="//loadGame/password" 
+                            value="" />
+                        <xf:hide dialog="insertPassword"/>
+                    </xf:action>
+                </xf:trigger>
+                <xf:submit submission="loadGame">
+                    <xf:label>Load Game!</xf:label>
+                </xf:submit>
+            </div>
+        </xf:dialog>
+        
+        
+    </body>
+</html>

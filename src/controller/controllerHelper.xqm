@@ -35,3 +35,11 @@ declare
 {
     request:scheme() || "://" || request:hostname() || ":" || request:port() || $path
 };
+
+declare
+    function ch:db_gameIdExists($id as xs:string) as xs:boolean
+{
+    let $path := "/model/database/gameIdExists/" || $id
+    return xs:boolean(ch:callModelFunction("get", $path, ())[2]/boolean)
+};
+

@@ -73,14 +73,41 @@ declare
     %updating
     function dbf:saveGame($body)
 {   
-    insert node $body as last into $dbf:savedGames
+    insert node $body as first into $dbf:savedGames
 };
 
-declare 
-    function dbf:gameIdExists($id as xs:string) as xs:boolean 
+declare
+    %rest:path("/model/database/getAllSavedGames")
+    %rest:GET
+    function dbf:getAllSavedGames()
 {   
-    if (count($dbf:games/game[@id = $id]) > 0) then
-        true()
+    $dbf:savedGames
+};
+
+declare
+    %rest:path("/model/database/getSavedGame/{$id}")
+    %rest:GET
+    function dbf:getSavedGame($id as xs:string) 
+{   
+    $dbf:savedGames/savedGame[game/@id = $id]
+};
+
+declare
+    %rest:path("/model/database/deleteSavedGame/{$id}")
+    %rest:POST
+    %updating
+    function dbf:deleteSavedGame($id as xs:string) 
+{   
+    delete node $dbf:savedGames/savedGame[game/@id = $id]
+};
+
+declare
+    %rest:path("/model/database/gameIdExists/{$id}")
+    %rest:GET
+    function dbf:gameIdExists($id as xs:string)
+{   
+    if (count($dbf:games/game[@id = $id]) > 0 or count($dbf:savedGames/savedGame/game[@id = $id]) > 0) then
+        <boolean>{true()}</boolean>
     else
-        false()
+        <boolean>{false()}</boolean>
 };

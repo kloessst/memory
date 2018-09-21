@@ -23,7 +23,7 @@ declare
     let $saveGamePath := "/model/gameMenu/saveGame"
     let $redirection := "/game/" || $gameId
     let $savedGameData := gmc:savedGameParamsToXML($gameId, $gameName, $gamePassword)
-    let $game := ch:callModelFunction("post", $saveGamePath, $savedGameData)[2]
+    let $game := ch:callModelFunction("post", $saveGamePath, $savedGameData)[2]/game
     return web:redirect($redirection)
 };
 
