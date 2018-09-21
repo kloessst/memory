@@ -14,12 +14,9 @@ import module namespace ch = "memory/src/controller/controllerHelper" at "contro
 declare
     %rest:path("/")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:main()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/start.xml")
@@ -33,12 +30,9 @@ declare
 declare
     %rest:path("/menu")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:menu()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/mainMenu.xml")
@@ -64,29 +58,54 @@ declare
 declare
     %rest:path("/load-game")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
     function lc:loadGame()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
-    let $head := doc("../views/lobbyHeader.xml")
-    let $body := doc("../views/loadGame.xml")
-    return ch:buildHTML($head, $body)
+    doc("../views/loadGameXForms.xml")
 };
 
 declare
     %rest:path("/highscore")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function lc:highscore()
-    as element(Q{http://www.w3.org/1999/xhtml}html)
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/highscore.xml")
     return ch:buildHTML($head, $body)
 };
+
+declare
+    %rest:path("/savedGames")
+    %rest:GET
+    function lc:getSavedGames()
+{
+    let $getSavedGamesPath := "/model/database/getAllSavedGames"
+    let $savedGames := ch:callModelFunction("get", $getSavedGamesPath, ())[2]/savedGames 
+    return lc:createSaveGameList($savedGames)
+};
+
+declare
+    %private
+    function lc:createSaveGameList($savedGames as element(savedGames))
+    as element(savedGamesList)
+{
+    <savedGamesList>{
+        for $sGame in $savedGames/savedGame
+            let $gameId := string($sGame/game/@id)
+            let $gameName := $sGame/gameName
+            let $date := $sGame/date
+            return
+                <savedGame>
+                    <gameId>{$gameId}</gameId>
+                    {$gameName}
+                    {$date}
+                </savedGame>
+        }
+        <loadGame>
+            <gameId/>
+            <password/>
+        </loadGame>
+    </savedGamesList>    
+};
+

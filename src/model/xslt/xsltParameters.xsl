@@ -23,8 +23,8 @@
     <xsl:variable name="hudXPos" select="$tableXPos"/>
     
     <!-- Card Size -->
-    <xsl:variable name="cardHeight" select="100"/>
-    <xsl:variable name="cardWidth" select="100"/>
+    <xsl:variable name="cardHeight" select="150"/>
+    <xsl:variable name="cardWidth" select="150"/>
     <xsl:variable name="cardXMargin" select="20"/>
     <xsl:variable name="cardYMargin" select="20"/>
     

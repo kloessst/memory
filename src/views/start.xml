@@ -15,9 +15,9 @@
     <!-- startbutton -->
     <div class="button-strip">
 
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg>
            <!-- onclick: move to menu -->
-            <a href="http://localhost:8984/menu">
+            <a href="/menu">
                 <g>
                     <rect rx="100%" ry="100%" />
                     <text x="50%" y="50%">Play ⇪</text>

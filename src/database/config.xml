@@ -11,4 +11,7 @@
             <gameConfig numberOfCards="28"/>
         </highscores>
     </dbHighscoresTemplate>
+    <dbSavedGamesTemplate path="savedGame.xml">
+        <savedGames/>
+    </dbSavedGamesTemplate>
 </dbConfig>

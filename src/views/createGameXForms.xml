@@ -4,8 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <head>
         <title>Munich-Memory</title>
-        <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
-        
+        <link rel="stylesheet" type="text/css" href="static/css/lobbyStyles.css"/>      
         
         <!-- Define the XForms model -->
         <xf:model>
@@ -35,9 +34,11 @@
         
         <!-- Header -->
         
-        <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
-            <h1>Munich-Memory ↠ New Game</h1>
-        </a>
+        <h1>
+            <a id="header" href="/menu" style="text-decoration:none;color: inherit">
+                Munich-Memory
+            </a> ↠ Create Game
+        </h1>
         
         <!-- Choose the usernames, input is only shown if the number of players matches -->
         <div class="unameforms">

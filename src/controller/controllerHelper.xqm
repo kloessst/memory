@@ -24,7 +24,7 @@ declare
 declare 
     function ch:buildHTML($head, $body) 
 {
-    <html xmlns="http://www.w3.org/1999/xhtml">
+    <html>
         {$head}
         {$body}
     </html>
@@ -35,3 +35,11 @@ declare
 {
     request:scheme() || "://" || request:hostname() || ":" || request:port() || $path
 };
+
+declare
+    function ch:db_gameIdExists($id as xs:string) as xs:boolean
+{
+    let $path := "/model/database/gameIdExists/" || $id
+    return xs:boolean(ch:callModelFunction("get", $path, ())[2]/boolean)
+};
+

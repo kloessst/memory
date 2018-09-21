@@ -14,6 +14,8 @@ import module namespace ch = "memory/src/controller/controllerHelper" at "contro
 declare
     %rest:path("/createGame")
     %rest:POST("{$body}")
+    %output:method("html")
+    %output:version("5.0")
     function gc:createGame($body)
 {
     let $pathToCreate := "/model/game/create"
@@ -28,25 +30,23 @@ declare
 declare
     %rest:path("/game/{$gameId}")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function gc:createGamePage($gameId as xs:string)
 {   
     let $xsltPath := "../model/xslt/stateToHTML.xsl"
     let $getGamePath := "/model/database/getGame/" || $gameId
     let $game := ch:callModelFunction("get", $getGamePath, ())[2]
-    return xslt:transform($game, $xsltPath)
+    let $body := xslt:transform($game, $xsltPath)
+    let $head := doc("../views/gameHeader.xml")
+    return ch:buildHTML($head, $body)
 };
 
 declare
     %rest:path("/game/{$gameId}/revealCard/{$cardId}")
     %rest:GET
-    %output:method("xhtml")
-    %output:omit-xml-declaration("no")
-    %output:doctype-public("-//W3C//DTD XHTML 1.0 Transitional//EN")
-    %output:doctype-system("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")
+    %output:method("html")
+    %output:version("5.0")
     function gc:revealCard($gameId as xs:string, $cardId as xs:string)
 {   
     let $redirection := "/game/" || $gameId
@@ -54,7 +54,40 @@ declare
     let $replaceGamePath := "/model/database/replaceGame"
     let $updatedGame := ch:callModelFunction("post", $handleRevealPath, ())[2]
     let $replaceResponse := ch:callModelFunction("post", $replaceGamePath, $updatedGame)[2]
-    let $xsltPath := "../model/xslt/stateToHTML.xsl"
-    return xslt:transform($updatedGame, $xsltPath)
-    (:return web:redirect($redirection):)
-}; 
+    return web:redirect($redirection)
+};
+
+declare
+    %rest:path("/game/load")
+    %rest:POST("{$body}")
+    %output:method("html")
+    %output:version("5.0")
+    function gc:loadGame($body)
+{
+    let $gameId := $body/loadGame/gameId/text() 
+    let $getSavedGamePath := "/model/database/getSavedGame/" || $gameId
+    let $savedGame := ch:callModelFunction("get", $getSavedGamePath, ())[2]/savedGame
+    let $passwordMatches := xs:boolean($savedGame/gamePassword/text() = $body/loadGame/password/text())
+    let $dummy := 
+        if ($passwordMatches) then
+            gc:activateSavedGame($savedGame)
+        else ()
+    let $redirection := 
+        if ($passwordMatches) then
+            "/game/" || $gameId
+        else
+            "/menu"
+    return web:redirect($redirection)
+};
+
+declare %private
+    function gc:activateSavedGame($savedGame as element(savedGame))
+{
+    let $gameId := string($savedGame/game/@id)
+    let $redirection := "/game/" || $gameId
+    let $insertRunningPath := "/model/database/createGame"
+    let $deletePath := "/model/database/deleteSavedGame/" || $gameId
+    let $insertResponse := ch:callModelFunction("post", $insertRunningPath, $savedGame/game)
+    let $deleteResponse := ch:callModelFunction("post", $deletePath, ())
+    return ()
+};

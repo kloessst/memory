@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
-    xmlns="http://www.w3.org/2000/svg"
     xmlns:xslth="/memory/src/model/xslt/xsltParameters"
     exclude-result-prefixes="xslth">
     
@@ -22,6 +21,32 @@
                 <xsl:apply-templates select="game/gameBoard"/> 
             </div>
             <!-- Display Menu Button -->
+            <div class="dropdown-menu">
+                <a href="#">Menu</a>
+                <ul class="dropdown-menu-content">
+                    <li>
+                        <a href="#meinDialog">Save Game</a>
+                    </li>
+                    <li><a href="#">Exit</a></li>
+                </ul>
+            </div>
+            
+            <dialog id="meinDialog"> 
+                <h2>Save Game</h2> 
+                <form action="/gameMenu/saveGame" method="post">
+                    <input type="hidden" id="gameId" name="gameId" value="{$gameId}"/>
+                    <div>
+                        <label for="gameName">Enter a name for the saved game: </label>
+                        <input id="gameName" name="gameName" type="text" /> 
+                    </div>
+                    <div>
+                        <label for="gamePassword">Enter a password:</label>
+                        <input id="gamePassword" name="gamePassword" type="password" /> 
+                    </div>
+                    <a href="#" class="button">Cancel</a>
+                    <button type="submit">Confirm</button>
+                </form> 
+            </dialog>
         </body>     
     </xsl:template>
     
@@ -53,7 +78,7 @@
     </xsl:template>
     
     <xsl:template match="gameBoard">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
+        <svg width="{xslth:calcXPos(@columns) + $cardXMargin}" height="{xslth:calcYPos(@rows) + $cardYMargin}">
         
             <!-- Iterate over every card -->
             <xsl:for-each select="cards/card">
