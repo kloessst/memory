@@ -66,14 +66,29 @@ declare
 declare
     %rest:path("/highscore/{$numberOfCards}")
     %rest:GET
-    %output:method("html")
-    %output:version("5.0")
     function lc:highscore($numberOfCards)
 {
-    let $head := doc("../views/lobbyHeader.xml")
-    let $getHighscorePath := "/model/database/getHighscore/{$numberOfCards}"
-    let $body := ch:callModelFunction("get", $getHighscorePath, ())
-    return ch:buildHTML($head, $body)
+    let $getFinishedGamesPath := "/model/database/getFinishedGames/" || $numberOfCards 
+    let $scores := ch:callModelFunction("get", $getFinishedGamesPath, ())[2]/games/game/players/player
+    return lc:createHighscoreList($scores)
+};
+
+declare
+    %private
+    function lc:createHighscoreList($scores)
+    as element(highscore)
+{
+    <highscore>{
+        for $h in $scores
+            let $name := $h/username
+            let $points := $h/score
+            return 
+                <player>
+                    {$name}
+                    {$points}    
+                </player>
+        }
+    </highscore>
 };
 
 declare

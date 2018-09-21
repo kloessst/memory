@@ -113,9 +113,9 @@ declare
 };
 
 declare
-    %rest:path("/model/database/getHighscore/{$numberOfCards}")
+    %rest:path("/model/database/getFinishedGames/{$numberOfCards}")
     %rest:GET
-    function dbf:getGame($numberOfCards)
+    function dbf:getHighScore($numberOfCards as xs:integer)
 {
-    $dbf:games/game/[@numberOfCards = $numberOfCards]
+    $dbf:games[game/@numberOfCards = $numberOfCards]
 };
