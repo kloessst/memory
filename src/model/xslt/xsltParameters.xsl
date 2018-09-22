@@ -6,60 +6,38 @@
     
     <xsl:variable name="pathToCardImages" select="'/static/images/cards/'"/>
     
-    <!-- Game Table -->
-    <xsl:variable name="tableXPos" select="50"/>
-    <xsl:variable name="tableYPos" select="50"/>
-    
-    <!-- Game Table Symbol -->
-    <xsl:variable name="tableSymbolHeigth" select="'100%'"/>
-    <xsl:variable name="tableSymbolWidth" select="'100%'"/>
-    <xsl:variable name="tableSymbolStroke" select="'black'"/>
-    <xsl:variable name="tableSymbolFill" select="'green'"/>
-    <xsl:variable name="tableSymbolRx" select="'2%'"/>
-    <xsl:variable name="tableSymbolRy" select="'2%'"/>
-    
-    <!-- Player HUD -->
-    <xsl:variable name="hudHeight" select="50"/>
-    <xsl:variable name="hudXPos" select="$tableXPos"/>
-    
     <!-- Card Size -->
-    <xsl:variable name="cardHeight" select="150"/>
-    <xsl:variable name="cardWidth" select="150"/>
-    <xsl:variable name="cardXMargin" select="20"/>
-    <xsl:variable name="cardYMargin" select="20"/>
+    <xsl:variable name="heightRelativeToContainer" select="'100%'"/>
+    <xsl:variable name="widthRelativeToContainer" select="'100%'"/>
+    <xsl:variable name="cardHeight" select="170"/>
+    <xsl:variable name="cardWidth" select="170"/>
+    <xsl:variable name="cardXMargin" select="25"/>
+    <xsl:variable name="cardYMargin" select="25"/>
     
     <!-- Card Frame -->
-    <xsl:variable name="frameRx" select="'2%'"/>
-    <xsl:variable name="frameRy" select="'2%'"/>
-    <xsl:variable name="frameStroke" select="'gray'"/>
-    <xsl:variable name="frameStrokeWidth" select="2"/>
+    <xsl:variable name="frameRx" select="'15%'"/>
+    <xsl:variable name="frameRy" select="'15%'"/>
+    <xsl:variable name="frameStroke" select="'#666668'"/>
+    <xsl:variable name="frameStrokeWidth" select="8"/>
     <xsl:variable name="frameBackgroundOpen" select="'white'"/>
     
-    <!-- Card Symbol Position -->
-    <xsl:variable name="symbolXPosition" select="'50%'"/>
-    <xsl:variable name="symbolYPosition" select="'50%'"/>
+    <!-- Card Back Pattern -->
+    <xsl:variable name="cardBackSquareLength" select="20"/>
+    <xsl:variable name="cardBackPatternFill" select="'white'"/>
+    <xsl:variable name="cardBackPatternStroke" select="'#666668'"/>
+    <xsl:variable name="cardBackPatternStrokeOpacity" select="0.5"/>
+    <xsl:variable name="cardBackPatternStrokeWidth" select="3"/>
     
-    <!-- Symbol Circle -->
-    <xsl:variable name="circleRadius" select="'25%'"/>
-    
-    <!-- Symbol Rect -->
-    <xsl:variable name="rectHeight" select="'50%'"/>
-    <xsl:variable name="rectWidth" select="'50%'"/>
-
-    <!-- Button Size/Layout-->
-    <xsl:variable name="buttonHeight" select="40"/>
-    <xsl:variable name="buttonWidth" select="80"/>
-    <xsl:variable name="labelXPosition" select="'50%'"/>
-    <xsl:variable name="labelYPosition" select="'50%'"/>
-    
-    <!-- Menu Button Style-->
-    <xsl:variable name="menuButtonText" select="'Menü'"/>
-    <xsl:variable name="menuButtonTextColor" select="'white'"/>
-    <xsl:variable name="menuButtonColor" select="'blue'"/>
+    <!-- Image -->
+    <xsl:variable name="imagePaddingWidth" select="0.08 * $cardWidth"/>
+    <xsl:variable name="imagePaddingHeight" select="0.08 * $cardHeight"/>
+    <xsl:variable name="imageWidth" select="$cardWidth - 2 * $imagePaddingWidth"/>
+    <xsl:variable name="imageHeight" select="$cardHeight - 2 * $imagePaddingHeight"/>
     
     <!-- Player Info Style -->
     <xsl:variable name="playerActiveColor" select="'red'"/>
-    <xsl:variable name="playerInactiveColor" select="'black'"/>
+    <xsl:variable name="playerInactiveColor" select="'white'"/>
+    <xsl:variable name="playerScoreColor" select="'grey'"/>
     <xsl:variable name="playerNameYPos" select="'30%'"/>
     <xsl:variable name="playerScoreYPos" select="'60%'"/>
     <xsl:variable name="textSize" select="15"/>

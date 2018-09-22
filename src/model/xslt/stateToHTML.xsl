@@ -70,7 +70,7 @@
                 <text y="{$playerNameYPos}" fill="{$usernameFill}">
                     <xsl:value-of select="username"/>
                 </text>
-                <text y="{$playerScoreYPos}">
+                <text y="{$playerScoreYPos}" fill="{$playerScoreColor}">
                     <xsl:value-of select="score"/>
                 </text>             
             </svg>
@@ -79,7 +79,8 @@
     
     <xsl:template match="gameBoard">
         <svg width="{xslth:calcXPos(@columns) + $cardXMargin}" height="{xslth:calcYPos(@rows) + $cardYMargin}">
-        
+            <xsl:copy-of select="doc('../../../static/svgs/svgGameElements.svg')/svg/defs"/>
+            
             <!-- Iterate over every card -->
             <xsl:for-each select="cards/card">
                 <!-- Calculate card position -->
@@ -92,13 +93,15 @@
                 <xsl:choose>
                     <xsl:when test="@revealed = true() or @solved = true()">
                         <svg x="{$cardXPos}" y="{$cardYPos}" width="{$cardWidth}" height="{$cardHeight}">
-                            <image href="{$graphic}" height="100%" width="100%"/>
+                            <use href="#cardRevealed"/>
+                            <image href="{$graphic}" x="{$imagePaddingWidth}" y="{$imagePaddingHeight}" 
+                                height="{$imageHeight}" width="{$imageWidth}"/>
                         </svg>
                     </xsl:when>
                     <xsl:otherwise>
                         <a href="/game/{$gameId}/revealCard/{@id}">
                             <svg x="{$cardXPos}" y="{$cardYPos}" width="{$cardWidth}" height="{$cardHeight}">
-                                <use href="/static/svgs/svgElements.svg#cardFrame" height="100%" width="100%"/>
+                                <use href="#cardFacedown"/>
                             </svg>               
                         </a>
                     </xsl:otherwise>
