@@ -11,7 +11,7 @@ declare variable $dbf:highscoresTemplate := doc("../database/config.xml")/dbConf
 declare variable $dbf:savedGamesTemplate := doc("../database/config.xml")/dbConfig/dbSavedGamesTemplate/savedGames;
 
 declare variable $dbf:games := db:open("memoryDB", "games.xml")/games;
-declare variable $dbf:higscores := db:open($dbf:dbName, $dbf:highscoresPath)/highscores;
+declare variable $dbf:highscores := db:open("memoryDB", "highscores.xml")/highscores;
 declare variable $dbf:savedGames := db:open("memoryDB", "savedGames.xml")/savedGames;
 
 (:
@@ -68,6 +68,15 @@ declare
 };
 
 declare
+    %rest:path("/model/database/deleteGame/{$id}")
+    %rest:POST
+    %updating
+    function dbf:deleteGame($id as xs:string)
+{   
+    delete node $dbf:games/game[@id = $id]
+};
+
+declare
     %rest:path("/model/database/createSaveGame")
     %rest:POST("{$body}")
     %updating
@@ -102,6 +111,36 @@ declare
 };
 
 declare
+    %rest:path("/model/database/highscores/{$numberOfCards}")
+    %rest:GET
+    function dbf:getHighScore($numberOfCards as xs:string)
+{   
+    <highscores>{
+        $dbf:highscores/highscore[@numberOfCards = $numberOfCards]
+    }</highscores>
+};
+
+declare
+    %rest:path("/model/database/deleteHighscores/{$numberOfCards}")
+    %rest:POST
+    %updating
+    function dbf:deleteHighScores($numberOfCards as xs:string)
+{   
+    for $highscore in $dbf:highscores/highscore[@numberOfCards = $numberOfCards]
+    return delete node $highscore
+};
+
+declare
+    %rest:path("/model/database/insertHighscores")
+    %rest:POST("{$body}")
+    %updating
+    function dbf:insertHighScore($body)
+{      
+    for $highscore in $body/highscores/highscore 
+    return insert node $highscore into $dbf:highscores
+};
+
+declare
     %rest:path("/model/database/gameIdExists/{$id}")
     %rest:GET
     function dbf:gameIdExists($id as xs:string)
@@ -110,12 +149,4 @@ declare
         <boolean>{true()}</boolean>
     else
         <boolean>{false()}</boolean>
-};
-
-declare
-    %rest:path("/model/database/getFinishedGames/{$numberOfCards}")
-    %rest:GET
-    function dbf:getHighScore($numberOfCards as xs:integer)
-{
-    $dbf:games[game/@numberOfCards = $numberOfCards]
 };

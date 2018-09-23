@@ -5,11 +5,7 @@
         <games/>
     </dbGamesTemplate>
     <dbHighscoresTemplate path="highscores.xml">
-        <highscores>
-            <gameConfig numberOfCards="12"/>
-            <gameConfig numberOfCards="20"/>
-            <gameConfig numberOfCards="28"/>
-        </highscores>
+        <highscores/>        
     </dbHighscoresTemplate>
     <dbSavedGamesTemplate path="savedGame.xml">
         <savedGames/>
