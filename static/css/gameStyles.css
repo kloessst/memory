@@ -1,7 +1,6 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: auto;
 }
 
 body {
@@ -36,17 +35,38 @@ ul:after {
     min-width: 150px;
 }
 
+.dialog {
+    z-index: -1;
+    color: white;
+    background: #49505a;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    width: 320px;
+    margin-left: -160px;
+    height: 180px;
+    margin-top: -90px;
+    border-color: black;
+}
+
 .players {
     float: left;
+    width: 15%;
+}
+
+.players svg{
+    display: block;
 }
 
 .gameBoard {
-    float: left;
+    display: inline-block;
+    margin:0 auto;
 }
 
 .dropdown-menu {
-    float: left;
+    float: right;
     position: relative;
+    right: 100px;
     border: black;
     background: #49505a;
 }
@@ -72,13 +92,13 @@ ul:after {
 }
 
 a.button {
-    padding: 
     -webkit-appearance: button;
     -moz-appearance: button;
     text-decoration: none;
     color: initial;
 }
 
-dialog:target {  
-    display: block; 
+.dialog:target {
+    display: block;
+    z-index: 0;
 }

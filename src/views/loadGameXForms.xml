@@ -60,7 +60,7 @@
             <xf:label>Enter the game password. The saved game will be deleted.</xf:label>
             <br/>
             <xf:secret id="password" ref="//password" incremental="true">
-                <xf:label>Password:  </xf:label>
+                <xf:label>Password:</xf:label>
             </xf:secret>
             <br/>
             <br/>
