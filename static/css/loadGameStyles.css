@@ -1,0 +1,59 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    background-color: #2e2e2e;
+    margin: 0%;
+    padding: 0%;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    color: #bebebe;
+    font-size: 300%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+h1#header {
+    cursor: pointer;
+}
+
+.savedGamesList {
+    position: absolute;
+    left: 6%;
+}
+
+.background {
+    background-image: url(../images/background/silhouette_of_munich.png);
+    background-size: 100% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom;    
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #565759;
+    color: white;
+    font-size: 1.2em
+}
+
+th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    color: white;
+    font-size: 1.1em
+}
+
+tr:hover {
+    background-color: #7b7c7f;
+}

@@ -8,6 +8,7 @@
     <xsl:include href="xsltParameters.xsl"/>
     
     <xsl:variable name="gameId" select="/game/@id"/>
+    <xsl:variable name="numberOfCards" select="/game/@numberOfCards"/>
     
     <!-- Transformations -->
     
@@ -25,66 +26,93 @@
                 <a href="#">Menu</a>
                 <ul class="dropdown-menu-content">
                     <li>
-                        <a href="#meinDialog">Save Game</a>
+                        <a href="#saveDialog">Save Game</a>
                     </li>
                     <li><a href="#">Exit</a></li>
                 </ul>
             </div>
             
-            <dialog id="meinDialog"> 
+            <dialog id="saveDialog" class="dialog"> 
                 <h2>Save Game</h2> 
                 <form action="/gameMenu/saveGame" method="post">
                     <input type="hidden" id="gameId" name="gameId" value="{$gameId}"/>
                     <div>
-                        <label for="gameName">Enter a name for the saved game: </label>
+                        <label for="gameName">Enter a game name: </label>
                         <input id="gameName" name="gameName" type="text" /> 
                     </div>
                     <div>
                         <label for="gamePassword">Enter a password:</label>
                         <input id="gamePassword" name="gamePassword" type="password" /> 
                     </div>
+                    <br/>
                     <a href="#" class="button">Cancel</a>
                     <button type="submit">Confirm</button>
                 </form> 
             </dialog>
+            
         </body>     
     </xsl:template>
     
     <xsl:template match="players">
+            <!-- Iterate over players and display information -->
+            <xsl:for-each select="player">
+                <xsl:variable name="playerCalcYPos" select="xslth:calcYPlayerPos(position())"/>
+                <xsl:variable name="usernameFill">
+                    <xsl:choose>
+                        <xsl:when test="@active = true()">
+                            <xsl:value-of select="$playerActiveColor"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$playerInactiveColor"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+                   
+                <svg y="{$playerCalcYPos}" alignment-baseline="hanging" font-size="{$playerTextSize}" 
+                    font-family="{$playerTextFont}" stroke-width="{$playerStrokeWidth}">
+                    <text x="{$playerBoxXPos}" y="{$playerNameRelYPos}" fill="{$usernameFill}" stroke-color="{$playerNameStrokeColor}">
+                        <xsl:value-of select="username"/>
+                    </text>
+                    <text x="{$playerBoxXPos}" y="{$playerScoreRelYPos}" fill="{$playerScoreColor}">
+                        <xsl:value-of select="score"/>
+                    </text>
+                </svg>
+            </xsl:for-each>
         
-        <!-- Iterate over players and display information -->
-        <xsl:for-each select="player">
-            <xsl:variable name="spielerXPos" select="xslth:calcXPos(position())"/>
-            <xsl:variable name="usernameFill">
-                <xsl:choose>
-                    <xsl:when test="@active = true()">
-                        <xsl:value-of select="$playerActiveColor"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="$playerInactiveColor"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-               
-            <svg x="{$spielerXPos}" alignment-baseline="hanging" font-size="{$textSize}">
-                <text y="{$playerNameYPos}" fill="{$usernameFill}">
-                    <xsl:value-of select="username"/>
-                </text>
-                <text y="{$playerScoreYPos}">
-                    <xsl:value-of select="score"/>
-                </text>             
-            </svg>
-        </xsl:for-each>
     </xsl:template>
     
     <xsl:template match="gameBoard">
-        <svg width="{xslth:calcXPos(@columns) + $cardXMargin}" height="{xslth:calcYPos(@rows) + $cardYMargin}">
         
+        <xsl:variable name="cardWidth">
+            <xsl:choose>
+                <xsl:when test="$numberOfCards > 20">
+                    <xsl:value-of select="$smallCardWidth"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$bigCardWidth"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:variable name="cardHeight">
+            <xsl:choose>
+                <xsl:when test="$numberOfCards > 20">
+                    <xsl:value-of select="$smallCardHeight"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$bigCardHeight"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <svg width="{xslth:calcGameboardWidth(@columns, $cardWidth)}" height="{xslth:calcGameboardHeight(@rows, $cardHeight)}">
+            <xsl:copy-of select="doc('../../../static/svgs/svgGameElements.svg')/svg/defs"/>            
+            
             <!-- Iterate over every card -->
             <xsl:for-each select="cards/card">
                 <!-- Calculate card position -->
-                <xsl:variable name="cardXPos" select="xslth:calcXPos(@column)"/>
-                <xsl:variable name="cardYPos" select="xslth:calcYPos(@row)"/>
+                <xsl:variable name="cardXPos" select="xslth:calcXCardPos(@column, $cardWidth)"/>
+                <xsl:variable name="cardYPos" select="xslth:calcYCardPos(@row, $cardHeight)"/>
                 <xsl:variable name="graphic" select="xslth:buildPathToGame(graphic)"/>
                 
                 <!-- Render card: If card is facedown use cardFaceDown template, otherwise
@@ -92,13 +120,15 @@
                 <xsl:choose>
                     <xsl:when test="@revealed = true() or @solved = true()">
                         <svg x="{$cardXPos}" y="{$cardYPos}" width="{$cardWidth}" height="{$cardHeight}">
-                            <image href="{$graphic}" height="100%" width="100%"/>
+                            <use href="#cardRevealed"/>
+                            <image href="{$graphic}" x="{xslth:calcImageXPos($cardWidth)}" y="{xslth:calcImageYPos($cardHeight)}" 
+                                width="{xslth:calcImageWidth($cardWidth)}" height="{xslth:calcImageHeight($cardHeight)}"/>
                         </svg>
                     </xsl:when>
                     <xsl:otherwise>
                         <a href="/game/{$gameId}/revealCard/{@id}">
                             <svg x="{$cardXPos}" y="{$cardYPos}" width="{$cardWidth}" height="{$cardHeight}">
-                                <use href="/static/svgs/svgElements.svg#cardFrame" height="100%" width="100%"/>
+                                <use href="#cardFacedown"/>
                             </svg>               
                         </a>
                     </xsl:otherwise>

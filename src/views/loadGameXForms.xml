@@ -6,7 +6,7 @@
     xmlns:ev="http://www.w3.org/2001/xml-events">
     <head>
         <title>Munich-Memory</title>
-        <link rel="stylesheet" type="text/css" href="static/css/lobbyStyles.css"/>      
+        <link rel="stylesheet" type="text/css" href="static/css/loadGameStyles.css"/>      
         
         <!-- Define the XForms model -->
         <xf:model>
@@ -58,9 +58,12 @@
         
         <xf:dialog id="insertPassword">
             <xf:label>Enter the game password. The saved game will be deleted.</xf:label>
+            <br/>
             <xf:secret id="password" ref="//password" incremental="true">
                 <xf:label>Password:</xf:label>
             </xf:secret>
+            <br/>
+            <br/>
             <div>
                 <xf:trigger>
                     <xf:label>Close</xf:label>

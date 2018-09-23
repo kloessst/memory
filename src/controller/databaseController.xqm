@@ -47,6 +47,6 @@ declare
 {   
     let $xsltPath := "../model/xslt/svgTemplates.xsl"
     let $file := xslt:transform(<dummy></dummy>, $xsltPath)
-    let $dummy := file:write("../webapp/memory/src/model/xslt/svgElements.svg", $file) 
+    let $dummy := file:write("../webapp/memory/static/svgs/svgGameElements.svg", $file) 
     return <ok>Worked</ok>
 };
