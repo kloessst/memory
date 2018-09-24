@@ -1,0 +1,54 @@
+<?xml-stylesheet href="static/xsltforms/xsltforms.xsl" type="text/xsl"?>
+<?css-conversion no?>
+<?xsltforms-options debug="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <head>
+        <title>Munich-Memory</title>
+        <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
+
+        <!-- Define the XForms model -->
+        <xf:model>
+            <xf:instance xmlns="">
+                <data>
+                    <!-- TODO: default is 20 otherwise checkbox-->
+                    <numberOfCards>12</numberOfCards>
+                </data>
+            </xf:instance>
+            <xf:bind id="numberOfCards" nodeset="/data/numberOfCards" type="xs:int"/>
+            <xf:submission id="submit" method="get" action="/highscore" />
+        </xf:model>
+
+    </head>
+
+    <body class="background">
+        
+        <!-- header -->
+        <a id="header" href="http://localhost:8984/menu" style="text-decoration:none;">
+            <h1>Munich-Memory ↠ Highscore</h1>
+        </a>
+    
+        <!-- TODO: table -->
+
+        <!-- Choose the game size -->
+        <!-- TODO: checkboxes have to submit ... -->
+        <div class="cardsizeselect">
+            <xf:select1 ref="/data/numberOfCards" appearance="full" >  
+                <xf:item>
+                    <xf:label>small (12 cards)</xf:label>
+                    <xf:value>12</xf:value> 
+                </xf:item>
+                <xf:item>
+                    <xf:label>medium (20 cards)</xf:label>
+                    <xf:value>20</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>big (28 cards)</xf:label>
+                    <xf:value>28</xf:value>
+                </xf:item>
+            </xf:select1>
+        </div>
+
+    </body>
+
+</html>

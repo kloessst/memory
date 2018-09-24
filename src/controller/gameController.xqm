@@ -49,12 +49,32 @@ declare
     %output:version("5.0")
     function gc:revealCard($gameId as xs:string, $cardId as xs:string)
 {   
-    let $redirection := "/game/" || $gameId
     let $handleRevealPath := "/model/" || $gameId || "/revealCard/" || $cardId
     let $replaceGamePath := "/model/database/replaceGame"
-    let $updatedGame := ch:callModelFunction("post", $handleRevealPath, ())[2]
+    let $updatedGame := ch:callModelFunction("post", $handleRevealPath, ())[2]/game
     let $replaceResponse := ch:callModelFunction("post", $replaceGamePath, $updatedGame)[2]
+    let $isGameOver := $updatedGame/gameState/state = "finished"
+    let $redirection := 
+        if ($isGameOver) then
+            "/menu"
+        else
+            "/game/" || $gameId
+    let $dummy :=
+        if ($isGameOver) then
+            gc:handleFinishedGame($updatedGame)
+        else
+            <dummy></dummy>
     return web:redirect($redirection)
+};
+
+declare %private
+    function gc:handleFinishedGame($game as element(game))
+{
+    let $saveHighscorePath := "/model/highscore/save"
+    let $deleteGamePath := "/model/database/deleteGame/" || $game/@id
+    let $highscoreResp := ch:callModelFunction("post", $saveHighscorePath, ($game))
+    let $deleteGameResp := ch:callModelFunction("post", $deleteGamePath, ())
+    return $highscoreResp
 };
 
 declare
@@ -67,7 +87,7 @@ declare
     let $gameId := $body/loadGame/gameId/text() 
     let $getSavedGamePath := "/model/database/getSavedGame/" || $gameId
     let $savedGame := ch:callModelFunction("get", $getSavedGamePath, ())[2]/savedGame
-    let $passwordMatches := xs:boolean($savedGame/gamePassword/text() = $body/loadGame/password/text())
+    let $passwordMatches := $savedGame/gamePassword = $body/loadGame/password
     let $dummy := 
         if ($passwordMatches) then
             gc:activateSavedGame($savedGame)
