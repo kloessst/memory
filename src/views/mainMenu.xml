@@ -11,6 +11,6 @@
     <table class="menu-table">
         <tr><td><a href="/createGame" style="text-decoration:none;"><div>New Game</div></a></td></tr>
         <tr><td><a href="/loadGame" style="text-decoration:none;"><div>Load Game</div></a></td></tr>
-        <tr><td><a href="/highscore/20" style="text-decoration:none;"><div>Highscore</div></a></td></tr>
+        <tr><td><a href="/highscores" style="text-decoration:none;"><div>Highscore</div></a></td></tr>
     </table>    
 </body>

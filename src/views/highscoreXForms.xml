@@ -1,22 +1,24 @@
 <?xml-stylesheet href="static/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <?css-conversion no?>
 <?xsltforms-options debug="no"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xf="http://www.w3.org/2002/xforms" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:ev="http://www.w3.org/2001/xml-events">
 
     <head>
         <title>Munich-Memory</title>
-        <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
+        <link rel="stylesheet" type="text/css" href="static/css/highscoreStyles.css"/>
 
         <!-- Define the XForms model -->
         <xf:model>
-            <xf:instance xmlns="">
-                <data>
-                    <!-- TODO: default is 20 otherwise checkbox-->
-                    <numberOfCards>12</numberOfCards>
-                </data>
+            <xf:instance id="highscoresList" xmlns="" src="/getHighscores">           
+            </xf:instance>              
+            <xf:instance id="cardConfig" xlmns="">
+                <numberOfCards>12</numberOfCards>
             </xf:instance>
-            <xf:bind id="numberOfCards" nodeset="/data/numberOfCards" type="xs:int"/>
-            <xf:submission id="submit" method="get" action="/highscore" />
+            <xf:submission id="getHighscores" method="get" action="/getHighscores"
+                replace="instance" instance="highscoresList" ref="instance('cardConfig')"/>
         </xf:model>
 
     </head>
@@ -28,12 +30,40 @@
             <h1>Munich-Memory ↠ Highscore</h1>
         </a>
     
-        <!-- TODO: table -->
-
-        <!-- Choose the game size -->
-        <!-- TODO: checkboxes have to submit ... -->
-        <div class="cardsizeselect">
-            <xf:select1 ref="/data/numberOfCards" appearance="full" >  
+        <div class="highscoreList">
+            <table>
+                <thead> 
+                    <tr> 
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                    </tr> 
+                </thead> 
+                <tbody>
+                    <xf:repeat nodeset="instance('highscoresList')//highscore">
+                        <xf:var name="rank" value="position()"/>
+                        <tr>
+                            <td><xf:output value="$rank"/></td>
+                            <td><xf:output ref="./player"/></td>
+                            <td><xf:output ref="./score"/></td>
+                            <td><xf:output value="concat(substring(./date,9,2),'/',
+                                substring(./date,6,2),'/',
+                                substring(./date,1,4))"
+                            /></td>
+                        </tr>
+                    </xf:repeat>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Choose the numberOfCards-->
+        <div class="cardSelect">
+            <xf:select1 ref="instance('cardConfig')" appearance="full" >  
+                <xf:action ev:event="DOMActivate">
+                    <xf:send submission="getHighscores"/>
+                </xf:action>
                 <xf:item>
                     <xf:label>small (12 cards)</xf:label>
                     <xf:value>12</xf:value> 

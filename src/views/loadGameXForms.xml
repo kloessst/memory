@@ -29,6 +29,7 @@
                     <tr> 
                         <th>Game Id</th>
                         <th>Game Name</th>
+                        <th>Date</th>
                         <th></th> 
                     </tr> 
                 </thead> 
@@ -38,6 +39,10 @@
                         <tr>
                             <td><xf:output ref="./gameId"/></td>
                             <td><xf:output ref="./gameName"/></td>
+                            <td><xf:output value="concat(substring(./date,9,2),'/',
+                                substring(./date,6,2),'/',
+                                substring(./date,1,4))"
+                            /></td>
                             <td>
                                 <xf:trigger>
                                     <xf:label>Start</xf:label>

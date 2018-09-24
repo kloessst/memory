@@ -63,12 +63,26 @@ declare
     doc("../views/loadGameXForms.xml")
 };
 
+(:~
+ : Returns the highscore site
+ : @return HTML page
+ :)
 declare
-    %rest:path("/getHighscores/{$numberOfCards}")
+    %rest:path("/highscores")
     %rest:GET
-    function lc:getHighscores($numberOfCards)
+    function lc:highscores()
 {
-    ""
+    doc("../views/highscoreXForms.xml")
+};
+
+declare
+    %rest:path("/getHighscores")
+    %rest:GET
+    %rest:query-param("numberOfCards", "{$numberOfCards}", 12)
+    function lc:getHighscores($numberOfCards as xs:string)
+{
+    let $getHighscoresPath := "/model/database/highscores/" || $numberOfCards
+    return ch:callModelFunction("get", $getHighscoresPath, ())[2]/highscores
 };
 
 declare

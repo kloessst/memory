@@ -262,7 +262,7 @@
         <sect2>
             <title>REST-API</title>
             <para>Folgende REST-API wird verwendet, um die Applikation zu initialisieren:<table frame="all">
-                <title>SETUP REST-API</title>
+                <title>Setup REST-API</title>
                 <tgroup cols="5">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c2" colnum="2"/>
@@ -312,7 +312,7 @@
                     <colspec colname="c2" colnum="2" colwidth="1"/>
                     <colspec colname="c3" colnum="3" colwidth="2"/>
                     <colspec colname="c4" colnum="4"/>
-                    <colspec colname="c5" colnum="5" colwidth="1.5*"/>
+                    <colspec colname="c5" colnum="5" colwidth="2.5*"/>
                     <thead>
                         <row>
                             <entry>Controller Module</entry>
@@ -367,9 +367,11 @@
                         <row>
                             <entry>lc:getHighscores</entry>
                             <entry>GET</entry>
-                            <entry>/getHighscores/{$numberOfCards}</entry>
+                            <entry>/getHighscores</entry>
                             <entry>Befüllt die XForms Instanz der Highscores-Seite. Liefert alle
-                                Highscores der entsprechenden Konfiguration zurück.</entry>
+                                    Highscores der entsprechenden Karten-Konfiguration zurück.
+                                    Konfiguration wird mit dem Query-Parameter numberOfCards
+                                    angegeben.</entry>
                         </row>
                         <row>
                             <entry morerows="3">gameController.xqm</entry>
@@ -433,7 +435,7 @@
                     <colspec colname="c2" colnum="2" colwidth="1.32*"/>
                     <colspec colname="c3" colnum="3" colwidth="1*"/>
                     <colspec colname="c4" colnum="4" colwidth="3.21*"/>
-                    <colspec colname="c5" colnum="5" colwidth="6.58*"/>
+                    <colspec colname="c5" colnum="5" colwidth="6.2*"/>
                     <thead>
                         <row>
                             <entry>Model Module</entry>
@@ -496,7 +498,7 @@
                     <colspec colname="c2" colnum="2" colwidth="1.32*"/>
                     <colspec colname="c3" colnum="3" colwidth="1*"/>
                     <colspec colname="c4" colnum="4" colwidth="4.03*"/>
-                    <colspec colname="c5" colnum="5" colwidth="6.58*"/>
+                    <colspec colname="c5" colnum="5" colwidth="5*"/>
                     <thead>
                         <row>
                             <entry>Model Module</entry>
