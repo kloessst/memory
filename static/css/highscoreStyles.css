@@ -24,9 +24,15 @@ h1#header {
     cursor: pointer;
 }
 
-.savedGamesList {
+.highscoreList {
+    position: absolute;
+    left: 20%;
+}
+
+.cardSelect {
     position: absolute;
     left: 6%;
+    color: white
 }
 
 .background {
