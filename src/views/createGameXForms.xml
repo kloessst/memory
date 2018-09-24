@@ -26,7 +26,7 @@
             <xf:bind id="player2" nodeset="/data/players/player[2]" type="xs:string" relevant="/data/numberOfPlayers &gt; 1" required="true()"/>
             <xf:bind id="player3" nodeset="/data/players/player[3]" type="xs:string" relevant="/data/numberOfPlayers &gt; 2" required="true()"/>
             <xf:bind id="player4" nodeset="/data/players/player[4]" type="xs:string" relevant="/data/numberOfPlayers &gt; 3" required="true()"/>
-            <xf:submission id="submit" method="post" action="/createGame"/>
+            <xf:submission id="submit" method="post" action="/game/create"/>
         </xf:model>
     </head>
     

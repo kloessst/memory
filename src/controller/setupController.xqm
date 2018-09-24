@@ -3,7 +3,7 @@ xquery version "3.0"  encoding "UTF-8";
  : This controller contains the routes to handle the database initialization and deletion
  :)
  
-module namespace dbc = "memory/src/controller/databaseController";
+module namespace sc = "memory/src/controller/setupController";
 
 import module namespace ch = "memory/src/controller/controllerHelper" at "controllerHelper.xqm";
 
@@ -12,9 +12,9 @@ import module namespace ch = "memory/src/controller/controllerHelper" at "contro
  : @return launch HTML page if db was initialized
  :)
 declare
-    %rest:path("/database/init")
+    %rest:path("/setup/createDB")
     %rest:GET
-    function dbc:initDatabase()
+    function sc:createDatabase()
 {   
     let $path := "/model/database/init"
     let $redirection := "/"
@@ -31,9 +31,9 @@ declare
  : @return ()
  :)
 declare
-    %rest:path("/database/drop")
+    %rest:path("/setup/dropDB")
     %rest:GET
-    function dbc:dropDatabase()
+    function sc:dropDatabase()
 {   
     let $path := "/model/database/drop"
     let $result := ch:callModelFunction("post", $path, ())
@@ -41,9 +41,9 @@ declare
 };
 
 declare
-    %rest:path("/database/initSvg")
+    %rest:path("/setup/initSvg")
     %rest:GET
-    function dbc:initSvg()
+    function sc:initSvg()
 {   
     let $xsltPath := "../model/xslt/svgTemplates.xsl"
     let $file := xslt:transform(<dummy></dummy>, $xsltPath)
