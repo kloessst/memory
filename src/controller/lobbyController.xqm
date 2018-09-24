@@ -16,7 +16,7 @@ declare
     %rest:GET
     %output:method("html")
     %output:version("5.0")
-    function lc:main()
+    function lc:start()
 {
     let $head := doc("../views/lobbyHeader.xml")
     let $body := doc("../views/start.xml")
@@ -44,7 +44,7 @@ declare
  : @return HTML page
  :)
 declare
-    %rest:path("/create-game")
+    %rest:path("/createGame")
     %rest:GET
     function lc:createGame()
 {
@@ -56,7 +56,7 @@ declare
  : @return HTML page
  :)
 declare
-    %rest:path("/load-game")
+    %rest:path("/loadGame")
     %rest:GET
     function lc:loadGame()
 {
@@ -64,40 +64,11 @@ declare
 };
 
 declare
-    %rest:path("/highscore/{$numberOfCards}")
+    %rest:path("/getHighscores/{$numberOfCards}")
     %rest:GET
-    function lc:highscore($numberOfCards)
+    function lc:getHighscores($numberOfCards)
 {
-    let $getFinishedGamesPath := "/model/database/getFinishedGames/" || $numberOfCards 
-    let $scores := ch:callModelFunction("get", $getFinishedGamesPath, ())[2]/games/game/players/player
-    let $unsorted := lc:createHighscoreList($scores)
-    return lc:sortHighscoreList($unsorted)
-};
-
-declare
-    %private
-    function lc:createHighscoreList($scores)
-    as element(highscore)
-{
-    <highscore>{
-        for $h in $scores
-            let $name := $h/username
-            let $points := $h/score
-            return 
-                <player>
-                    {$name}
-                    {$points}    
-                </player>
-        }
-    </highscore>
-};
-
-declare
-    %private
-    function lc:sortHighscoreList($unsorted)
-    as element(highscore)
-{
-    $unsorted
+    ""
 };
 
 declare

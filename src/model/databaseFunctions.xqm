@@ -80,7 +80,7 @@ declare
     %rest:path("/model/database/createSaveGame")
     %rest:POST("{$body}")
     %updating
-    function dbf:saveGame($body)
+    function dbf:createSaveGame($body)
 {   
     insert node $body as first into $dbf:savedGames
 };

@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title> Project - Memory Spiel </title>
+        <author>
+            <orgname> Stefan Klöss-Schuster </orgname>
+        </author>
+        <author> <orgname> Vanessa Krohn </orgname> </author>
+        <author> <orgname> Ilias Sulgin </orgname> </author>
+        <author> <orgname> Alexander Ruhl </orgname> </author>
+        <author> <orgname> Daria Beck </orgname> </author>
+        
+    </info>
+    <sect1>
+        <title>Setup</title>
+        <para>Bevor die Applikation verwendet werden kann müssen folgende Schritte durchgeführt werden:<orderedlist>
+                <listitem>
+                    <para>BaseX kann von Haus aus nur mit XSLT Version 1.0 umgehen. In dieser
+                        Applikation werden XSLT Version 2.0 Stylesheets verwendet, um eigene
+                        XSLT-Funktionen definieren zu können. Hierfür muss ein anderen
+                        XSLT-Prozessor, z.B. der <link xlink:href="http://www.saxonica.com/">Saxon
+                            XSLT Processor</link>, in den Klassenpfad eingebunden werden. Dazu muss
+                        nur die entsprechende .jar Datei in den Ordner
+                            <emphasis>lib/custom/</emphasis> abgelegt werden. BaseX erkennt den
+                        neuen Prozessor automatisch.</para>
+                </listitem>
+                <listitem>
+                    <para>Die Datenbank muss über die REST-Route
+                            <emphasis>/setup/createDB</emphasis> erstellt werden. Wenn die Datenbank
+                        erfolgreich angelegt wurde erfolgt eine Weiterleitung auf die
+                        Startseite.</para>
+                </listitem>
+                <listitem>
+                    <para>Die SVG-Karten Definitionen müssen über die REST-Route
+                            <emphasis>/setup/initSvg</emphasis> erstellt werden. Die
+                        Karten-Templates sind in dem Stylesheet
+                            <emphasis>svgTemplates.xsl</emphasis> definiert und mit den Stylesheet
+                        Variablen aus <emphasis>xsltParameters.xsl</emphasis> parametrisiert. Die
+                        REST-Route führt eine XSLT-Transformation durch und speichert das Ergebnis
+                        unter <emphasis>static/svgs/svgGameElements.svg</emphasis>.</para>
+                </listitem>
+            </orderedlist></para>
+    </sect1>
+    <sect1>
+        <title>Use Cases</title>
+        <para> Memory Spiel kann in folgende Anwendungsfälle aufgeteilt werden: <itemizedlist>
+            <listitem>
+                <para> Spieler kann über die Startseite die Lounge anzeigen</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann in der Lounge zwischen "New Game", "Load Game" und
+                    "Highscore" navigieren</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann ein neues Spiel beginnen. Dabei besteht die Möglichkeit die
+                    Anzahl der Karten, die Anzahl der Spieler und die Spielernamen
+                    auszuwählen</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann ein gespeichertes Spiel laden</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann ein laufendes Spiel über eine Route fortsetzen
+                    (/game/"gameID")</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann ein laufendes Spiel über das Spiel-Menü speichern</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann ein laufendes Spiel über das Spiel-Menü beenden</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann einen Highscore erreichen, wenn das abgeschlossen
+                    wurde</para>
+            </listitem>
+            <listitem>
+                <para> Spieler kann Highscores für verschiedene Spielkonfigurationen
+                    betrachten</para>
+            </listitem>
+        </itemizedlist></para>
+    </sect1>
+    <sect1>
+        <title> User Experience - Menüführung (UX)</title>
+         
+              <orderedlist>
+            <listitem>
+                <para>Zu Beginn werden die SpielerInnen von einer Startseite begrüßt über welche sie
+                    durch den Play-Button zum Menü gelangen. Dort steht es den SpielerInnen frei,
+                    ein neues Spiel zu starten (Button: New Game), ein bereits angefangenes Spiel zu
+                    laden (Button: Load Game) oder zur Highscore-Liste zu gelangen (Button:
+                    Highscore). </para>
+            </listitem>
+            <listitem>
+                <para>Wenn die SpielerInnen auf die Option "New Game" klicken, werden sie
+                    aufgefordert in das Username-Feld ihren individuellen Nutzernamen einzugeben.
+                    Weiterhin müssen sie entscheiden, mit welcher Anzahl von Karten (12,20,28) sie
+                    spielen möchten und wie viele TeilnehmerInnen es geben soll. Nachdem alles
+                    Nötige angegeben wurde, kann das Spiel über den "Start Game"-Button gestartet
+                    werden. Auf eine echte Registrierung der Spieler wird zugunstigen eines
+                    "arcade-artigen" Spielerlebnis verzichtet.</para>
+            </listitem>
+            <listitem>
+                <para>Alternativ kann über Load-Game im Menü auch ein bereits gespeichertes Spiel
+                    fortgesetzt werden. Die SpielerInnen wählen einfach ihr gespeichertes Spiel aus
+                    und setzen dieses mit Klick auf den "Start"-Button fort. Daraufhin erscheint ein
+                    Dialog in dem die SpielerInnen das Passwort für das gespeicherte Spiel eingeben
+                    müssen. Bei Klick auf den "Cancel-Button" wird der Dialog geschlossen. Mit einem
+                    Klick auf den "Load Game"-Button wird das Spiel geladen, falls das Passwort
+                    stimmt. Falls nicht werden die SpielerInnen zum Menü weitergeleitet.</para>
+            </listitem>
+            <listitem>
+                <para>Sobald ein Spiel gestartet wird, erscheinen umgedrehte Karten (je nach Auswahl
+                    der Kartenanzahl) in der Mitte vom Spielfeld. Am Rand sind die TelnehmerInnen
+                    und deren jeweilige Punktzahl gelistet. Die Spielregeln sind die des
+                    altbekannten Memorie-Spiels. Die SpielerInnen können jederzeit ihr Spiel
+                    abspeichern. Sobald ein Spiel beendet wurde, wird die Spielerin oder der Spieler
+                    mit den meisten Punkten als "Gewinner" markiert und die besten Spieler erhalten
+                    einen Eintrag in der Highscore-Liste.</para>
+            </listitem>
+            <listitem>
+                <para>Die Highscore-Liste ist ebenfalls über das Menü erreichbar und besteht aus den
+                    Nutzernamen und Punktzahl der Zwanzig Spielerinnen und Spieler.</para>
+            </listitem>
+        </orderedlist> 
+        
+       
+    </sect1>
+    <sect1> 
+        <title>UML-Klassendiagramm</title>
+        <para> Die benötigten Zustandsdaten für ein laufendes Spiel und die Hilfsdaten (Highscore,
+            SavedGame) sind im UML-Klassendiagramm dargestellt.</para>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="memoryDataUML.png" format="png"/>      
+            </imageobject>
+        </mediaobject>
+        
+        <sect2>
+            <title>Datenbeschreibung</title>
+            <para>Die folgende Liste beschreibt die Klassen des oben dargestellten UML-Klassendiagramm,
+                die für ein laufendes Spiel benötigt werden:<itemizedlist>
+                    <listitem>
+                        <para>
+                            <emphasis>Game</emphasis>: Die Spiel-Klasse repräsentiert eine Instanz eines
+                            laufenden Spiels. Das Attribut "id" ist über alle laufenden und
+                            gespeicherten Spiele hinweg eindeutig und identifiziert ein Spiel. Ein Spiel
+                            wird mit 12, 20 oder 28 Karten gespielt ("numberOfCards") und hat bis zu
+                            vier Spieler ("numberOfPlayers"). Über die Spiel-Klasse kann auf die anderen
+                            Klassen, welche für ein laufendes Spiel benötigt werden, zugegriffen werden.
+                            In XML-codiert ist damit "Game" der Container für die anderen
+                            Zustandsklassen.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis>GameState</emphasis>: Diese Klasse repräsentiert Informationen,
+                            die für den Spielablauf benötigt werden. Das Attribute "state" vom Typ
+                            String gibt an, ob das Spiel beendet ist ("finished") oder noch läuft
+                            ("running"). Das Feld "guessPhase" gibt an in welcher Ablaufphase sich das
+                            Spiel momentan befindet. Zum Beispiel repäsentiert die "guessPhase=0" die
+                            Phase in der die SpielerInnen die ersten Karte aufdecken. Die Karten-Id des
+                            ersten und des zweiten Tipps werden in den Feldern "firstGuess" bzw.
+                            "secondGuess" gespeichert.</para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis>Player</emphasis>: Die Spieler-Klasse repräsentiert einen von
+                            maximal vier Spielern. Sie hat eine "id" und einen "username", um einen
+                            Spieler zu identifizieren. Jeder Spieler hat einen Integer "score", der die
+                            aktuelle Punktzahl des Spielers festhält. Das Attribut "active" gibt an, ob
+                            der Spieler gerade an der Reihe ist.</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis>GameBoard</emphasis>: Das Spielfeld besteht aus den Karten die
+                            aktuell im Spiel sind. Die Attribute "columns" und "rows" bestimmen die
+                            Ausmaße des Spielfelds. </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis>Card</emphasis>: Karten werden in Paaren dargestellt. Jede Karte
+                            erhält eine eindeutige Id und eine pairId (twin of Assoziation) welche für
+                            Zwillingkarten identisch ist. Die Klasse enthält die boolean Attribute
+                            "revealed" und "solved". Sie geben an, ob die Karte aufgedeckt ist und ob
+                            die Zwillingskarte bereits gefunden wurde. Der String "graphic" assoziiert
+                            die Karte mit einem Bilderdatei, die dargestellt wird, wenn die Karte
+                            aufgedeckt ist. Die Felder "row" und "column" bestimmen die Position der
+                            Karte auf dem Spielbrett.</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>Die folgende Aufzählung beschreibt Klassen in denen Hilfsdaten gespeichert werden:<itemizedlist>
+                <listitem>
+                    <para><emphasis>Highscore</emphasis>: Die Klasse Highscore wird benötigt, um die
+                        Highscores der Spieler zu speichern. Eine Instanz der Klasse wird nur
+                        gespeichert, wenn das Spiel beendet wurde und ein Spieler einen Highscore
+                        erreicht hat. Mit Hilfe das Attributs "numberOfCards" kann zwischen den
+                        Highscores verschiedener Spielkonfigurationen unterschieden werden. Das
+                        Attribut "player" gibt den Namen des Spielers an, "score" enthält die
+                        erreichte Punktzahl und "date" hält da fest, wann der Highscore erreicht
+                        wurde.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis>SavedGame</emphasis>: Die Klasse repäsentiert ein gespeichertes
+                        Spiel. Neben den Zustandsdaten des gespeicherten Spiels, hat die Klasse die
+                        Attribute "gameName" und "gamePassword" welche zum Laden des Spiels benötigt
+                        werden. Zusätzlich wird in dem Feld "date" festgehalten, wann das Spiel
+                        gespeichert wurde.</para>
+                </listitem>
+            </itemizedlist></para>
+            <para>Die Attribut-Typen, die in dem UML-Klassendiagramm angegeben wurden, dienen lediglich
+                zum besseren semantischen Verständnis. Bei der Implementierung kann es vorkommen, dass
+                ein Integer (xs:int) als String (xs:string) repräsentiert wird. Außerdem sind die
+                Zustandsdaten nicht minimal d.h. Informationen werden teilweise redundant gespeichert.
+                Zum Beispiel kann der Wert des Attributs "Game.numberOfCards" über die Assoziation der
+                GameBoard-Klasse mit der Karten-Klasse bestimmt werden. Der Vorteil des expliziten
+                Speicherns wichtiger Spiel-Parameter ist das einfache Auslesen dieser Werte.</para>
+        </sect2>
+    </sect1>
+    
+ 
+    
+    <sect1>
+        <title>Architektur</title>
+        <sect2>
+            <title>Überblick</title>
+            <para>Die Architektur der Anwendung entspricht der in der Vorlesung vorgestellten
+                Model-View-Controller-Architektur mit einer passiven View. </para>
+            <para>Die Views werden mit HTML5, SVG und XForms im Zusammenspiel mit XSLTForms realisiert
+                und in einem Browser dargestellt. Die eigentliche Spiel-Seite wird aus dem Spielzustand
+                mit Hilfe eines XSLT-Programms generiert. Ausgabeformat ist hierbei HTML5 mit
+                eingebettetem SVG. Die Views bietet den SpielerInnen Interaktionsmöglichkeiten über
+                Links (&lt;a/>), HTML Dialoge (&lt;dialog/>) und HTML Forms. Wenn die SpielerInnen eine
+                Interaktion vornehmen, wird ein HTTP-Request mit einer vordefinierten Route abgesendet
+                und die Antwort erneut im Browser dargestellt.</para>
+            <para>Die Controller-Module haben die Aufgabe die von den Views entsendeten HTTP-Requests zu
+                verarbeiten. Das Mapping von HTTP-Requests auf XQuery Methoden erfolgt mit
+                RESTXQ-Annotationen. Zur Verarbeitung der HTTP-Requests werden die Funktionen in den
+                Model-Modulen benötigt. Ein Design-Ziel ist hierbei den Controller möglichst "dumm" zu
+                halten um eine starke "separation of concerns" zu ermöglichen. Das Model hat aus diesem
+                Grund eine REST-Schnittstelle, die wiederum über RESTXQ-Annotationen realisiert wird.
+                Der Controller greift auf die Model-API über Wrapper-Methoden zu, welche mit
+                http:send-request implementiert sind. Der Controller generiert aus den zurückgegebenen
+                Informationen eine neue View, die in dem Browser dargestellt wird.</para>
+            <para>Das Model kann weiterhin in zwei Schichten unterteilt werden, die Logik und die
+                Datenbank-Funktionen. Nur die Controller-Module dürfen die Model-Funktionen aufrufen,
+                niemals die Views direkt. Grundsätzlich ist gewollt, dass nur über die Logik-Schicht auf
+                die Datenbank-Funktionen zugegriffen wird aber es gibt Außnahmen, falls keine
+                vorgeschaltete Logik benötigt wird. Ein Beispiel hierfür ist das Anlegen der Datenbank.
+                Aufgabe der Logik-Schicht ist das Manipulieren der Daten.</para>
+            <para>Zugriff auf alle Datenbank-Funktionen, sowohl lesend als auch schreibend, erfolgt
+                ebenfalls über eine eigene Datenbank-REST-API, die mit RESTXQ Annotationen umgesetzt
+                wird. Ein Vorteil dieser Entscheidung ist, dass die aufrufende Methoden einfacher
+                gestaltet werden kann. Datenbank-Updates und Lesezugriffe können an beliebiger Stelle in
+                der Funktion ausgeführt und vermischt werden. Die Pending Update List wird für jede
+                Aufruf einer Datenbank-Funktion direkt verarbeitet. Dadurch muss nicht auf die implizite
+                Update-Reihenfolge geachtet werden. Außerdem werden jegliche Deadlocks verhindert und
+                das Prinzip der "seperation of concerns" umgesetzt.</para>
+        </sect2>
+        <sect2>
+            <title>REST-API</title>
+            <para>Folgende REST-API wird verwendet, um die Applikation zu initialisieren:<table frame="all">
+                <title>SETUP REST-API</title>
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="c3" colnum="3"/>
+                    <colspec colname="c4" colnum="4"/>
+                    <colspec colname="c5" colnum="5" colwidth="5*"/>
+                    <thead>
+                        <row>
+                            <entry>Controller Module</entry>
+                            <entry>Controller Function</entry>
+                            <entry>Method</entry>
+                            <entry>Path</entry>
+                            <entry>Beschreibung</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry morerows="2">setupController.xqm</entry>
+                            <entry>sc:createDatabase</entry>
+                            <entry>GET</entry>
+                            <entry>/setup/createDB</entry>
+                            <entry>Initialisiert die Datenbank.</entry>
+                        </row>
+                        <row>
+                            <entry>sc:dropDatabase</entry>
+                            <entry>GET</entry>
+                            <entry>/setup/dropDB</entry>
+                            <entry>Löscht die Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>sc:initSvg</entry>
+                            <entry>GET</entry>
+                            <entry>/setup/initSvg</entry>
+                            <entry>Erstellt eine Datei mit Karten SVG-Definitionen aus einem
+                                XSLT-Programm (svgTemplates.xsl), dass die Kartentemplates enthält.
+                                Die Kartentemplates werden mit Variablen in xsltParameters.xsl
+                                parametrisiert.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>
+        <para>Folgende REST-API wird in der Controller-Schicht umgesetzt und stellt alle
+            Interaktionsmöglichkeiten des Clients dar:<table frame="all">
+                <title>Controller REST-API</title>
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1" colwidth="1"/>
+                    <colspec colname="c2" colnum="2" colwidth="1"/>
+                    <colspec colname="c3" colnum="3" colwidth="2"/>
+                    <colspec colname="c4" colnum="4"/>
+                    <colspec colname="c5" colnum="5" colwidth="1.5*"/>
+                    <thead>
+                        <row>
+                            <entry>Controller Module</entry>
+                            <entry>Controller Function</entry>
+                            <entry>Method</entry>
+                            <entry>Path</entry>
+                            <entry>Beschreibung</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry morerows="6">lobbyController.xqm</entry>
+                            <entry>lc:start</entry>
+                            <entry>GET</entry>
+                            <entry>/</entry>
+                            <entry>Gibt die Start-Seite als HTML5 zurück</entry>
+                        </row>
+                        <row>
+                            <entry>lc:menu</entry>
+                            <entry>GET</entry>
+                            <entry>/menu</entry>
+                            <entry>Gibt das Lobby Menü als HTML5 zurück</entry>
+                        </row>
+                        <row>
+                            <entry>lc:createGame</entry>
+                            <entry>GET</entry>
+                            <entry>/createGame</entry>
+                            <entry>Gibt die CreateGame-Seite zurück. Diese Seite verwendet XForms
+                                und wird mit Hilfe von XSLTForms umgewandelt.</entry>
+                        </row>
+                        <row>
+                            <entry>lc:loadGame</entry>
+                            <entry>GET</entry>
+                            <entry>/loadGame</entry>
+                            <entry>Gibt die LoadGame-Seite zurück. Diese Seite verwendet
+                                XForms.</entry>
+                        </row>
+                        <row>
+                            <entry>lc:getSavedGames</entry>
+                            <entry>GET</entry>
+                            <entry>/savedGames</entry>
+                            <entry>Befüllt die XForms Instanz der LoadGame-Seite. Liefert alle
+                                gespeicherten Spiele zurück.</entry>
+                        </row>
+                        <row>
+                            <entry>lc:highscores</entry>
+                            <entry>GET</entry>
+                            <entry>/highscores</entry>
+                            <entry>Gibt die Highscores-Seite zurück. Diese Seite verwendet
+                                XForms.</entry>
+                        </row>
+                        <row>
+                            <entry>lc:getHighscores</entry>
+                            <entry>GET</entry>
+                            <entry>/getHighscores/{$numberOfCards}</entry>
+                            <entry>Befüllt die XForms Instanz der Highscores-Seite. Liefert alle
+                                Highscores der entsprechenden Konfiguration zurück.</entry>
+                        </row>
+                        <row>
+                            <entry morerows="3">gameController.xqm</entry>
+                            <entry>gc:createGame</entry>
+                            <entry>POST</entry>
+                            <entry>/game/create</entry>
+                            <entry>Erstellt ein neues Spiel anhand der Parameter numberOfCards,
+                                numberOfPlayers und den Spielernamen im Body des Requests. Leitet
+                                danach auf die Spielseite weiter.</entry>
+                        </row>
+                        <row>
+                            <entry>gc:createGamePage</entry>
+                            <entry>GET</entry>
+                            <entry>/game/{$gameId}</entry>
+                            <entry>Gibt eine spezifische Spielseite zurück. Die Seite wird aus dem
+                                Spielzustands mit einem XSLT-Programm generiert.</entry>
+                        </row>
+                        <row>
+                            <entry>gc:revealCard</entry>
+                            <entry>GET</entry>
+                            <entry>/game/{$gameId}/ revealCard/{$cardId}</entry>
+                            <entry>Diese Route wird aufgerufen wenn ein Spieler eine Karte auswählt
+                                hat und verändert den Spielzustand entsprechend. Ersetzt den alten
+                                Spielzustand in der Datenbank. Überprüft, ob das Spiel zu Ende ist,
+                                speichert eventuell den Highscore und leitet entweder zur Spielseite
+                                oder zum Hauptmenü zurück.</entry>
+                        </row>
+                        <row>
+                            <entry>gc:loadGame</entry>
+                            <entry>POST</entry>
+                            <entry>/game/load</entry>
+                            <entry>Wird von der LoadGame-Page augerufen. Body enthält das vom User
+                                eingegeben Passwort und die GameId. Überprüft, ob das Passwort
+                                übereinstimmt. Falls ja, aktiviert das gespeicherte Spiel und leitet
+                                zu der Spiel-Seite weiter. Ansonsten wird zum Lobby-Menü
+                                weitergeleitet.</entry>
+                        </row>
+                        <row>
+                            <entry>gameMenuController.xqm</entry>
+                            <entry>gmc:saveGame</entry>
+                            <entry>POST</entry>
+                            <entry>/gameMenu/saveGame</entry>
+                            <entry>Wird über das InGame-Menü aufgerufen. Speichert das aktuelle
+                                Spiel als savedGame in der Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>
+        <para> Mit folgender REST-API kann die Logik-Schicht des Models verwendet werden<table
+                frame="all">
+                <title>Model Logic REST-API</title>
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1" colwidth="1.32*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.32*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1*"/>
+                    <colspec colname="c4" colnum="4" colwidth="3.21*"/>
+                    <colspec colname="c5" colnum="5" colwidth="6.58*"/>
+                    <thead>
+                        <row>
+                            <entry>Model Module</entry>
+                            <entry>Controller Function</entry>
+                            <entry>Method</entry>
+                            <entry>Path</entry>
+                            <entry>Beschreibung</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>gameBoardFunctions.xqm</entry>
+                            <entry>gbf:handleCardReveal</entry>
+                            <entry>POST</entry>
+                            <entry>/model/game/{$gameId}/ revealCard/{$cardId}</entry>
+                            <entry>Verändert den Spielzustand eines besimmten Spiels anhand des
+                                gespeicherten Spiel-Zustands und der aufzudeckenden Karte. Gibt den
+                                veränderten Spiel-Zustand zurück</entry>
+                        </row>
+                        <row>
+                            <entry>gameConstructor.xqm</entry>
+                            <entry>gco:createGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/game/create</entry>
+                            <entry>Erstellt den Spielzustand anhand der XML-codierten Parameter im
+                                Body des Requests. Parameter sind die Anzahl der Karten, die Anzahl
+                                der Spieler und die Spielernamen. Gibt den XML-codierten
+                                Spielzustand zurück.</entry>
+                        </row>
+                        <row>
+                            <entry>gameMenuFunctions.xqm</entry>
+                            <entry>gmf:saveGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/gameMenu/saveGame</entry>
+                            <entry>Erstellt das savedGame anhand der XML-codierten Parameter im Body
+                                des Requests. Parameter sind der Spielname, das Passwort und die
+                                GameId. Erstellt eine neue einzigartige GameId und speichert das
+                                savedGame in der Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>highscoreFunctions.xqm</entry>
+                            <entry>hf:saveHighscores</entry>
+                            <entry>POST</entry>
+                            <entry>/model/highscore/save</entry>
+                            <entry>Erstellt Highscores. Der Body des Requests erhält die
+                                Spielernamen und die Scores eines beendeten Spiels. Die globale
+                                Variable hf:highscoreLimit bestimmt wieviele Highscores für eine
+                                Kartenkonfiguration gespeichert werden. Die alten Highscores der
+                                Konfiguration werden aus der Datenbank gelöscht und die neuen
+                                Highscores in die Datenbank eingefügt.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>
+        <para> Mit folgender REST-API kann lesend und schreibend auf die Datenbank zugegriffen
+                werden:<table frame="all">
+                <title>Model Database REST-API</title>
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1" colwidth="1.32*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.32*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1*"/>
+                    <colspec colname="c4" colnum="4" colwidth="4.03*"/>
+                    <colspec colname="c5" colnum="5" colwidth="6.58*"/>
+                    <thead>
+                        <row>
+                            <entry>Model Module</entry>
+                            <entry>Controller Function</entry>
+                            <entry>Method</entry>
+                            <entry>Path</entry>
+                            <entry>Beschreibung</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry morerows="13">databaseFunctions.xqm</entry>
+                            <entry>%updating dbf:initDatabase</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/init</entry>
+                            <entry>Erstellt eine Datenbank mit Container-Nodes für die laufenden
+                                Spiele, die gespeicherten Spiele und die Highscores. Wird nur
+                                erstellt wenn die Datenbank noch nicht existiert.</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:dropDatabase</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/drop</entry>
+                            <entry>Löscht die Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>dbf:getGame</entry>
+                            <entry>GET</entry>
+                            <entry>/model/database/getGame/{$id}</entry>
+                            <entry>Gibt den Spielzustand mit der entsprechenden gameId
+                                zurück</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:createGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/createGame</entry>
+                            <entry>Speichert den Spielzustand im Body des Requests in der
+                                Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:replaceGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/replaceGame</entry>
+                            <entry>Ersetzt einen alten Spielzustand mit einem Neuem. Der neue
+                                Spielzustand ist im Body des Requests</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:deleteGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/deleteGame/{$id}</entry>
+                            <entry>Löscht den Spielzustand mit der übergebenen gameId aus der
+                                Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:createSaveGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/createSaveGame</entry>
+                            <entry>Fügt ein savedGame aus dem Body des Requests in die Datenbank
+                                ein</entry>
+                        </row>
+                        <row>
+                            <entry>dbf:getAllSavedGames</entry>
+                            <entry>GET</entry>
+                            <entry>/model/database/getAllSavedGames</entry>
+                            <entry>Liefert alles savedGames, die in der Datenbank gespeichert sind,
+                                zurück</entry>
+                        </row>
+                        <row>
+                            <entry>dbf:getSavedGame</entry>
+                            <entry>GET</entry>
+                            <entry>/model/database/ getSavedGame/{$id}</entry>
+                            <entry>Gibt ein savedGame mit der entsprechenden gameId aus der
+                                Datenbank zurück</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:deleteSavedGame</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/d eleteSavedGame/{$id}</entry>
+                            <entry>Löscht ein savedGame mit der entsprechenden gameId aus der
+                                Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>dbf:getHighScore</entry>
+                            <entry>GET</entry>
+                            <entry>/model/database/ highscores/{$numberOfCards}</entry>
+                            <entry>Gibt alle Highscores mit der entsprechenden Kartenkonfiguration
+                                aus der Datenbank zurück</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:deleteHighScores</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/ deleteHighscores/{$numberOfCards}</entry>
+                            <entry>Löscht alle Highscores mit der entsprechenden Kartenkonfiguration
+                                aus der Datenbank</entry>
+                        </row>
+                        <row>
+                            <entry>%updating dbf:insertHighScore</entry>
+                            <entry>POST</entry>
+                            <entry>/model/database/insertHighscores</entry>
+                            <entry>Fügt alle Highscores, die im Body des Requests sind, in die
+                                Datenbank ein</entry>
+                        </row>
+                        <row>
+                            <entry>dbf:gameIdExists</entry>
+                            <entry>GET</entry>
+                            <entry>/model/database/gameIdExists/{$id}</entry>
+                            <entry>Gibt zurück, ob die übergebene gameId bereits in einem laufendem
+                                oder gespeicherten Spiel existiert.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></para>
+        </sect2>
+        
+    </sect1>
+    
+    <sect1> 
+        <title>Thematik und Organisation der Arbeit</title>
+        
+        <para> </para>
+        
+        <sect2> 
+        <title>Thematik der Arbeit - Munich-Memory</title>
+            <para> </para>
+        </sect2>
+        
+        <sect2> 
+            <title>Organisation der Arbeit</title>
+            <para> </para>
+        </sect2>
+        
+        
+    </sect1>
+    
+   
+       
+     
+</article>

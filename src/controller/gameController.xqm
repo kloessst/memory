@@ -12,7 +12,7 @@ import module namespace ch = "memory/src/controller/controllerHelper" at "contro
  : @return HTML page
  :)
 declare
-    %rest:path("/createGame")
+    %rest:path("/game/create")
     %rest:POST("{$body}")
     %output:method("html")
     %output:version("5.0")

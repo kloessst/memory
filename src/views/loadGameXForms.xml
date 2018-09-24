@@ -40,7 +40,7 @@
                             <td><xf:output ref="./gameName"/></td>
                             <td>
                                 <xf:trigger>
-                                    <xf:label>Go</xf:label>
+                                    <xf:label>Start</xf:label>
                                     <xf:action ev:event="DOMActivate">
                                         <xf:setvalue
                                             ref="//loadGame/gameId" 
@@ -66,7 +66,7 @@
             <br/>
             <div>
                 <xf:trigger>
-                    <xf:label>Close</xf:label>
+                    <xf:label>Cancel</xf:label>
                     <xf:action ev:event="DOMActivate">
                         <xf:setvalue
                             ref="//loadGame/gameId" 
@@ -78,7 +78,7 @@
                     </xf:action>
                 </xf:trigger>
                 <xf:submit submission="loadGame">
-                    <xf:label>Load Game!</xf:label>
+                    <xf:label>Load Game</xf:label>
                 </xf:submit>
             </div>
         </xf:dialog>
