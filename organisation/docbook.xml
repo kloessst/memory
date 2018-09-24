@@ -21,6 +21,11 @@
         <title>Setup</title>
         <para>Bevor die Applikation verwendet werden kann müssen folgende Schritte durchgeführt werden:<orderedlist>
                 <listitem>
+                        <para>Verwendet wird das BaseX plattform-unabhängige ZIP-Package. Der Ordner
+                            <emphasis>memory</emphasis>, der den Source Code enthält, muss in dem
+                        Ordner <emphasis>basex/webapp </emphasis> abgelegt werden.</para>
+                </listitem>
+                <listitem>
                     <para>BaseX kann von Haus aus nur mit XSLT Version 1.0 umgehen. In dieser
                         Applikation werden XSLT Version 2.0 Stylesheets verwendet, um eigene
                         XSLT-Funktionen definieren zu können. Hierfür muss ein anderen
@@ -46,6 +51,11 @@
                         unter <emphasis>static/svgs/svgGameElements.svg</emphasis>.</para>
                 </listitem>
             </orderedlist></para>
+        <para>Die Applikation wurde mit dem Firefox 62.0 (64-Bit) getestet. Chrome 69.0.3497.100
+            (64-Bit) hat Probleme im Zusammenspiel mit XForms und XSLT-Forms. XForms &lt;xf:action>
+            Elemente werden nicht richtig ausgeführt wodurch auf der LoadGame-Seite keine
+            gespeicherten Spiele gestartet werden können. Außerdem funktioniert deshalb das
+            Umschalten zwischen den Karten-Konfigurationen auf der Highscore-Seite nicht.</para>
     </sect1>
     <sect1>
         <title>Use Cases</title>
@@ -134,12 +144,11 @@
     <sect1> 
         <title>UML-Klassendiagramm</title>
         <para> Die benötigten Zustandsdaten für ein laufendes Spiel und die Hilfsdaten (Highscore,
-            SavedGame) sind im UML-Klassendiagramm dargestellt.</para>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="memoryDataUML.png" format="png"/>      
-            </imageobject>
-        </mediaobject>
+            SavedGame) sind im UML-Klassendiagramm dargestellt.<inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="memoryUMLClass.jpg"/>
+                </imageobject>
+            </inlinemediaobject></para>
         
         <sect2>
             <title>Datenbeschreibung</title>
@@ -217,6 +226,33 @@
                 Zum Beispiel kann der Wert des Attributs "Game.numberOfCards" über die Assoziation der
                 GameBoard-Klasse mit der Karten-Klasse bestimmt werden. Der Vorteil des expliziten
                 Speicherns wichtiger Spiel-Parameter ist das einfache Auslesen dieser Werte.</para>
+        </sect2>
+        <sect2>
+            <title>Methodenbeschreibung</title>
+            <para>In diesem Kapitel werden einige Methoden aus dem obigen Klassendiagramm erläutert.<itemizedlist>
+                    <listitem>
+                        <para>Game.createGame(...): Erstellt den Spielzustand. Ruft Konstruktoren
+                            der anderen Klassen auf wie z.B. GameState.createGameState(). Verwendet
+                            createUniqueGameId() um eine einzigartige Id aus dem Hash der
+                            Spielernamen zu erzeugen. Gibt den initialen Spielzustand zurück.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Game.handleCardReveal(): Verändert den Spielzustand abhängig von der
+                            aufgedeckten Karte und dem aktuellen GameState.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Game.isGameFinished(): Überprüft, ob das aktuelle Spiel zu Ende ist.
+                            Nutzt GameBoard.countSolvedPairs() und numberOfCards.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Game.switchPlayers(): Setzt einen anderen Spieler aktiv. Wird
+                            verwendet wenn ein Kartenpaar nicht gefunden wurde</para>
+                    </listitem>
+                    <listitem>
+                        <para>Game.updateHighscore(): Veranlasst eine Aktualisierung des Highscores,
+                            wenn das Spiel beendet ist. Ruft Highscore.insertHighscore() auf.</para>
+                    </listitem>
+                </itemizedlist></para>
         </sect2>
     </sect1>
     
@@ -427,8 +463,7 @@
                     </tbody>
                 </tgroup>
             </table></para>
-        <para> Mit folgender REST-API kann die Logik-Schicht des Models verwendet werden<table
-                frame="all">
+        <para> Mit folgender REST-API kann die Logik-Schicht des Models verwendet werden<table frame="all">
                 <title>Model Logic REST-API</title>
                 <tgroup cols="5">
                     <colspec colname="c1" colnum="1" colwidth="1.32*"/>
@@ -613,36 +648,191 @@
             </table></para>
         </sect2>
         
+        <sect2>
+            <title>Spielablauf</title>
+            <para>Folgendes UML Zustandsdiagramm zeigt das Konzept des Spielablaufs: <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="UMLZustand-Spielablauf.jpg"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para>Zunächst wird das Spiel über die Route <emphasis>/game/create</emphasis> angelegt.
+                Alle relevanten Informationen zum Erstellen des Spiels sind im Body des Requests
+                enthalten:</para>
+            <para>
+                <code> &lt;data&gt; &lt;numberOfCards&gt;20&lt;/numberOfCards&gt;
+                    &lt;numberOfPlayers&gt;1&lt;/numberOfPlayers&gt;
+                    &lt;players&gt;John&lt;/players&gt; &lt;/data&gt; </code>
+            </para>
+            <para>Im obigen Beispiel wird ein Spiel mit einem Spieler namens John und 20 Karten
+                erstellt. Das Model Modul <emphasis>gameConstructor</emphasis> wird von dem
+                    <emphasis>gameController</emphasis> über die REST-Route
+                    <emphasis>/model/game/create</emphasis> angesprochen und gibt die XML-codierten
+                Daten im Body des Requests weiter. Die Model Funktion generiert aus den
+                Spielinformationen einen fertigen Spielzustand. Dabei wird eine einzigartige gameId
+                gewählt und zufällige Kartenmotive, die in
+                    <emphasis>static/svgs/cardSet.xml</emphasis> festgehalten sind, ausgewählt. Der
+                Spielzustand wird über die HTTP-Response and den gameController
+                weitergeleitet.</para>
+            <para>Der gameController ruft die Route <emphasis>/model/database/createGame</emphasis>
+                auf, welche den Spielzustand in der Datenbank speichert. Dann erfolgt eine
+                Weiterleitung zur eigentlichen Spiel-Seite <emphasis>/game/{$gameId}</emphasis>. Aus
+                unbekannten Grund ändert die Weiterleitung mit <emphasis>web:redirect</emphasis>
+                hier nicht die URL, die der Browser anzeigt.</para>
+            <para>Die gameController Route<emphasis>/game/{$gameId}</emphasis> hat die Aufgabe aus
+                dem Spielzustand eine entsprechende View zu erzeugen. Hierfür wird das XSLT-Programm
+                    <emphasis>src/model/xslt/stateToHTML.xsl</emphasis>, welches nach dem
+                Pull-Prinzip arbeitet, verwendet. Das Ergebnis-Skelett ist bereits vorgegeben und
+                die benötigten Informationen werden aus dem XML-codierten Spielzustand extrahiert.
+                Zur Darstellung des Spiels und Berechnen des Layouts werden Hilfsfunktionen aus dem
+                Stylesheet <emphasis>src/model/xslt/xsltTemplates.xsl</emphasis> verwendet. Das
+                Stylesheet enthält außerdem Variablen zum Parametrisieren der Karten-SVGs und der
+                Spieler-Informationen. Die Karten-SVGs müssen bei dem Setup der Applikation über die
+                Route <emphasis>/setup/initSvg</emphasis> zunächst initialisiert werden. Die Route
+                stößt das XSLT-Programm <emphasis>src/model/xslt/svgTemplates.xsl</emphasis> an und
+                schreibt die fertigen Karten-Definitionen in die Datei
+                    <emphasis>static/svgs/svgGameElements.svg</emphasis>. Der Vorteil dabei ist,
+                dass alle Karten-Grafiken vollständig parametrisiert sind und schnelle Änderungen am
+                Design möglich werden.</para>
+            <para>Jede verdeckte Karte wird in dem XSLT-Programm
+                    <emphasis>src/model/xslt/stateToHTML.xsl</emphasis> mit einem Link zur
+                    Route<emphasis> /game/{$gameId}/ revealCard/{$cardId}</emphasis> versehen. Die
+                gameId und cardId wird dabei automatisch richtig parametrisiert. Wenn die Spieler
+                einen Karte auswählen wird diese Route aufgerufen, um die entsprechenden Änderungen
+                am Spielzustand vorzunehmen. </para>
+            <para>Der Spielablauf der im obigen UML-Zustandsdiagramm zusammengefasst ist, folgt
+                immer dem selben Zyklus:<orderedlist>
+                    <listitem>
+                        <para>Spieler wählt eine Karte aus und die Route<emphasis> /game/{$gameId}/
+                                revealCard/{$cardId}</emphasis> wird aufgerufen</para>
+                    </listitem>
+                    <listitem>
+                        <para>Die entsprechende gameController-Funktion ruft die Model-Route
+                                <emphasis>/model/game/{$gameId}/ revealCard/{$cardId}</emphasis>
+                            auf, um den Spielzustand zu manipulieren.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Der Spielzustand wird je nach <emphasis>guessPhase</emphasis> in der
+                            sich das Spiel aktuell befindet angepasst und an den gameController
+                            zurückgegeben. Die guessPhase wird im Spielzustand unter
+                                <emphasis>game/gameState/guessPhase</emphasis> gespeichert. <itemizedlist>
+                                <listitem>
+                                    <para>Die <emphasis>guessPhase = 0</emphasis> repräsentiert den
+                                        Zustand in dem der Spieler noch keinen Tipp abgegeben
+                                        hat.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Die <emphasis>guessPhase = 1</emphasis> repäsentiert den
+                                        Zustand nach dem der Spieler die erste Karte aufgedeckt
+                                        hat.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Beim Aufdecken der zweiten Karte erfolgt eine
+                                        Fallunterscheidung: Falls die zwei Karten nicht identisch
+                                        sind wird das Spiel in den Zustand <emphasis>guessPhase =
+                                            2</emphasis> versetzt. Falls die Karten identisch sind
+                                        wird eine Reihe von Anpassungen am Spielzustand vorgenommen
+                                        und das Spiel wieder in den Zustand <emphasis>guessPhase =
+                                            0</emphasis> versetzt: Das Kartenpaar wird als "solved"
+                                        markiert, der Spieler-Score wird aktualisiert und es wird
+                                        überprüft, ob alle Kartenpaare gefunden wurde. Wenn alle
+                                        Kartenpaare gefunden sind, wird "finished" in
+                                            <emphasis>game/gameState/state</emphasis> hinterlegt.
+                                        Der Controller überprüft dieses Flag später.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Die <emphasis>guessPhase = 2</emphasis> ist der Zustand
+                                        der es ermöglicht, dass die fälschlicherweise aufgedeckten
+                                        Karten zunächst offen liegen bleiben, damit die Spieler sich
+                                        die Karten einprägen können. Bei Klick auf eine verdeckte
+                                        Karte werden die fälschlicherweise aufgedeckten Karten
+                                        wieder umgedreht, der aktive Spieler gewechselt und in die
+                                        guessPhase = 0 zurückgekehrt. Eine Überprüfung, ob das Spiel
+                                        beendet ist, erübrigt sich, da das Spiel nur nach dem
+                                        Auffinden von zwei identische Karten beendet werden
+                                        kann.</para>
+                                </listitem>
+                            </itemizedlist></para>
+                    </listitem>
+                    <listitem>
+                        <para>Der gameController ersetzt den alten Spielzustand mit dem neuen
+                            Spielzustand über die Route
+                                <emphasis>/model/database/replaceGame</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Der gameController überprüft, ob das Spiel fertig ist anhand des Werts
+                            im Spielzustand <emphasis>game/gameState/state</emphasis>. Wenn das
+                            Spiel beendet ist wird die Highscore-Logik über die Route
+                                <emphasis>/model/highscore/save</emphasis> angestoßen, um eventuelle
+                            Highscores der Spieler zu speichern. Das Spiel wird über die Route
+                                <emphasis>/model/database/deleteGame/{$gameId}</emphasis> aus der
+                            Datenbank gelöscht und es erfolgt eine Weiterleitung auf die
+                            LobbyMenu-Seite. Wenn das Spiel noch nicht fertig ist erfolgt eine
+                            Weiterleitung über <emphasis>/game/{$gameId}</emphasis>, um den
+                            aktualisierten Spielzustand zu einer View zu transformieren. Hier
+                            beginnt der Zyklus erneut.</para>
+                    </listitem>
+                </orderedlist></para>
+            <para>Ein Problem bei dieser Umsetzung des Spiels ist, dass jedes Mal wenn eine Karte
+                gewählt wurde ein HTTP-Request gesendet wird und der Client auf die Antwort warten
+                muss. Außerdem wird dadurch die Spielseite ständig neu geladen. Eine andere Lösung
+                wäre aber mit Logik im Client verbinden, zum Beispiel JavaScript oder XForms. Auf
+                JavaScript wurde im ganzen Projekt verzichtet, um die Projektvorgaben einzuhalten.
+                Auf XForms mit XSLTForms wurde auf der Spiel-Seite ebenfalls verzichtet, um ständige
+                XSLT-Transformationen zu vermeiden und die Komplexität im Zaum zu halten.</para>
+        </sect2>
+        
     </sect1>
     
    <sect1> 
-        <title>Organisation der Arbeit</title>
-        <segmentedlist>
-            <segtitle> Allgemeines </segtitle>
-            <seglistitem>
-               <seg>Die Kommunikation via unsere Whatsapp Gruppe hat sehr gut funktioniert. 
-                    Alle Fragen konnten schnellstmöglich geklärt werden.
-                    Während des Semesters wurden ein paar Meetings geplant, um den Arbeitsablauf zu besprechen. 
-                    Restliche Arbeit am Projekt erfolgte remote.
-                    Dadurch dass das Projektziel Programmieren eines Spiels war, hat es uns sehr gut gefallen. 
-                    Wähend des Projektes könnte man viel Kreativität beim Design ausüben.
-                    Wir haben versucht die Aufgaben den Wissenständen gerecht zu verteilen.
-                    Jedoch haben sich die Augaben im Laufe des Projektes vermischt.</seg>
-            </seglistitem>
-        </segmentedlist> 
+        <title>Reflektion</title>
+        <sect2>
+            <title> Organisation der Arbeit </title>
+            <para>
+                Zur Versionsverwaltung des Source Codes wurde Git im Zusammenspiel mit GitHub
+                    verwendet. Sämtliche Arbeitsprodukte sind in dem Repository <link xlink:href="https://github.com/kloessst/memory"/> zu finden. Als
+                    Entwicklungsprozess wurde ein vereinfachtes GitFlow vorgeschlagen. Dabei darf
+                    der Master Branch immer nur funktionierende Product Increments enthalten. Neue
+                    Features werden auschließlich in den Feature Branches entwickelt. Bei
+                    Fertigstellung eines Features wird ein Pull-Request erstellt und nach einem
+                    Review und Test durch einen zweiten Entwickler in den Master Branch gemerged.
+                    Leider konnte dieser Prozess nicht vollständig umgesetzt werden, wegen
+                    Zeitmangel und unterschiedlichen Wissensständen im Umgang mit Git und GitHub.
+                
+            </para>
+            <para>Die Kommunikation erfolgte hauptsächlich über eine Whatsapp Gruppe und hat
+                grundsätzlich sehr gut funktioniert. Während des Semesters wurden einige Treffen
+                veranstaltet, um den Arbeitsablauf zu besprechen. Die restliche Arbeit am Projekt
+                erfolgte remote. Die Verteilung der Aufgaben war problematisch. Es wurde versucht
+                die Aufgaben nach Wissensständen zu verteilen. Da aber die Team-Mitglieder
+                unterschiedlichste Hintergünde haben, wurde die Arbeitslast, vorallem bei der
+                Implementierung, nicht fair verteilt. Das Verteilen der Arbeit nach Wissensstand hat
+                außerdem zur Folge, dass die XStack-Applikation nicht von jedem vollständig
+                überblickt wird. Zusätzlich wurde die Komplexität des Projekts unterschätzt und
+                schließlich musste das Testat verschoben werden.</para>
+        </sect2> 
         
-        <segmentedlist>
-            <segtitle> Probleme und Schwierigkeiten</segtitle>
-            <seglistitem>
-                <seg>Es war sehr schwer, die Aufgaben nach Arbeitspaketen zu verteilen. 
-                    Unser Team hat die Komplexität des Projektes am Ende unterschätzt und ist dadurch in Zeitnot geraten.
-                    Wir hätten mehr Zeit in die Organisation und Planung des Projektes investieren sollen. 
-                    
-                </seg>
-            </seglistitem>
-        </segmentedlist>
-        
-        
+        <sect2>
+            <title> Praktikum</title>
+            <para>Die Aufgabe ein Memory Browser-Game zu entwickeln hat allen sehr gefallen. Bei
+                einem Spiel besteht die Möglichkeit sich beim Design auszuleben. Außerdem sind
+                Fortschritte schnell ersichtlich.</para>
+            <para>Der vorgegebene Technologie-Stack konnte den Programmier-Horizont deutlich
+                erweitern. Das Arbeitet mit BaseX ging leicht von der Hand dank dem ausführlichen
+                Wiki und der vielen vorgefertigten Module. Nachteil des XStacks ist vor allem das
+                schwierige Debuggen von fehlerhaften Code, die oft veralteten Informationen im Web
+                und die Tatsache, dass der XStack kaum Verwendung findet in der Wirtschaft.</para>
+            <para>Die Organisation Praktikums war von Anfang an klar verständlich. Die Tatsache,
+                dass die Arbeitsblätter nicht abgegeben werden müssen, hilft den Studierenden, die
+                eine hohe Arbeitsbelastung haben. Dies ermöglicht eine flexiblere Arbeitseinteilung.
+                Jedoch besteht auch die Gefahr, dass der Anschluss schnell verpasst wird, da die
+                XML-Technologien oft aufeinander aufbauen. Die Möglichkeit einen Notenbonus zu
+                verdienen, wenn ein Arbeitsblatt präsentiert wird, ist eine gute Maßnahme
+                dagegen.</para>
+            <para>Die Betreuung des Praktikums war sehr gut. Philipp Ulrich war über E-Mail und die
+                Sprechstunden immer zu erreichen und hat schnelle und gute Antworten auf die Fragen
+                gegeben. Prof. Dr. Anne Brüggemann-Klein war auch immer erreichbar. An dieser Stelle
+                muss die freundliche und kulante Art von Ihr nochmals hervorgehoben werden. </para>
+        </sect2>        
     </sect1>
     
    
