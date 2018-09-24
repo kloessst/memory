@@ -615,20 +615,32 @@
         
     </sect1>
     
-    <sect1> 
-        <title>Thematik und Organisation der Arbeit</title>
+   <sect1> 
+        <title>Organisation der Arbeit</title>
+        <segmentedlist>
+            <segtitle> Allgemeines </segtitle>
+            <seglistitem>
+               <seg>Die Kommunikation via unsere Whatsapp Gruppe hat sehr gut funktioniert. 
+                    Alle Fragen konnten schnellstmöglich geklärt werden.
+                    Während des Semesters wurden ein paar Meetings geplant, um den Arbeitsablauf zu besprechen. 
+                    Restliche Arbeit am Projekt erfolgte remote.
+                    Dadurch dass das Projektziel Programmieren eines Spiels war, hat es uns sehr gut gefallen. 
+                    Wähend des Projektes könnte man viel Kreativität beim Design ausüben.
+                    Wir haben versucht die Aufgaben den Wissenständen gerecht zu verteilen.
+                    Jedoch haben sich die Augaben im Laufe des Projektes vermischt.</seg>
+            </seglistitem>
+        </segmentedlist> 
         
-        <para> </para>
-        
-        <sect2> 
-        <title>Thematik der Arbeit - Munich-Memory</title>
-            <para> </para>
-        </sect2>
-        
-        <sect2> 
-            <title>Organisation der Arbeit</title>
-            <para> </para>
-        </sect2>
+        <segmentedlist>
+            <segtitle> Probleme und Schwierigkeiten</segtitle>
+            <seglistitem>
+                <seg>Es war sehr schwer, die Aufgaben nach Arbeitspaketen zu verteilen. 
+                    Unser Team hat die Komplexität des Projektes am Ende unterschätzt und ist dadurch in Zeitnot geraten.
+                    Wir hätten mehr Zeit in die Organisation und Planung des Projektes investieren sollen. 
+                    
+                </seg>
+            </seglistitem>
+        </segmentedlist>
         
         
     </sect1>
