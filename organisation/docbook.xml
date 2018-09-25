@@ -150,7 +150,7 @@
         <para> Die benötigten Zustandsdaten für ein laufendes Spiel und die Hilfsdaten (Highscore,
             SavedGame) sind im UML-Klassendiagramm dargestellt.<inlinemediaobject>
                 <imageobject>
-                    <imagedata fileref="memoryUMLClass.jpg"/>
+                    <imagedata width="700px" fileref="memoryUMLClass.jpg"/>
                 </imageobject>
             </inlinemediaobject></para>
         
@@ -308,7 +308,7 @@
                     <colspec colname="c2" colnum="2"/>
                     <colspec colname="c3" colnum="3"/>
                     <colspec colname="c4" colnum="4"/>
-                    <colspec colname="c5" colnum="5" colwidth="5*"/>
+                    <colspec colname="c5" colnum="5"/>
                     <thead>
                         <row>
                             <entry>Controller Module</entry>
@@ -348,11 +348,11 @@
             Interaktionsmöglichkeiten des Clients dar:<table frame="all">
                 <title>Controller REST-API</title>
                 <tgroup cols="5">
-                    <colspec colname="c1" colnum="1" colwidth="1"/>
-                    <colspec colname="c2" colnum="2" colwidth="1"/>
-                    <colspec colname="c3" colnum="3" colwidth="2"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="c3" colnum="3"/>
                     <colspec colname="c4" colnum="4"/>
-                    <colspec colname="c5" colnum="5" colwidth="2.5*"/>
+                    <colspec colname="c5" colnum="5"/>
                     <thead>
                         <row>
                             <entry>Controller Module</entry>
@@ -471,11 +471,11 @@
         <para> Mit folgender REST-API kann die Logik-Schicht des Models verwendet werden<table frame="all">
                 <title>Model Logic REST-API</title>
                 <tgroup cols="5">
-                    <colspec colname="c1" colnum="1" colwidth="1.32*"/>
-                    <colspec colname="c2" colnum="2" colwidth="1.32*"/>
-                    <colspec colname="c3" colnum="3" colwidth="1*"/>
-                    <colspec colname="c4" colnum="4" colwidth="3.21*"/>
-                    <colspec colname="c5" colnum="5" colwidth="6.2*"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="c3" colnum="3"/>
+                    <colspec colname="c4" colnum="4"/>
+                    <colspec colname="c5" colnum="5"/>
                     <thead>
                         <row>
                             <entry>Model Module</entry>
@@ -534,11 +534,11 @@
                 werden:<table frame="all">
                 <title>Model Database REST-API</title>
                 <tgroup cols="5">
-                    <colspec colname="c1" colnum="1" colwidth="1.32*"/>
-                    <colspec colname="c2" colnum="2" colwidth="1.32*"/>
-                    <colspec colname="c3" colnum="3" colwidth="1*"/>
-                    <colspec colname="c4" colnum="4" colwidth="4.03*"/>
-                    <colspec colname="c5" colnum="5" colwidth="5*"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="c3" colnum="3"/>
+                    <colspec colname="c4" colnum="4"/>
+                    <colspec colname="c5" colnum="5"/>
                     <thead>
                         <row>
                             <entry>Model Module</entry>
@@ -657,7 +657,7 @@
             <title>Spielablauf</title>
             <para>Folgendes UML Zustandsdiagramm zeigt das Konzept des Spielablaufs: <inlinemediaobject>
                     <imageobject>
-                        <imagedata fileref="UMLZustand-Spielablauf.jpg"/>
+                        <imagedata width="700px" fileref="UMLZustand-Spielablauf.jpg"/>
                     </imageobject>
                 </inlinemediaobject></para>
             <para>Zunächst wird das Spiel über die Route <emphasis>/game/create</emphasis> angelegt.
