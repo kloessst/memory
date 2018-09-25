@@ -50,6 +50,10 @@
                         REST-Route führt eine XSLT-Transformation durch und speichert das Ergebnis
                         unter <emphasis>static/svgs/svgGameElements.svg</emphasis>.</para>
                 </listitem>
+                <listitem>
+                    <para>Da <link xlink:href="http://www.agencexml.com/xsltforms">XSLT-Forms</link> verwendet wird, muss auch dieses in den Ordner
+                        <emphasis>basex/webapp/static</emphasis> eingebunden werden</para>
+                </listitem>
             </orderedlist></para>
         <para>Die Applikation wurde mit dem Firefox 62.0 (64-Bit) getestet. Chrome 69.0.3497.100
             (64-Bit) hat Probleme im Zusammenspiel mit XForms und XSLT-Forms. XForms &lt;xf:action>
