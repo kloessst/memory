@@ -21,7 +21,7 @@ declare
     let $pathToCreate := "/model/game/create"
     let $pathToSave := "/model/database/createGame"
     let $game := ch:callModelFunction("post", $pathToCreate, $body)[2]
-    let $gameId := $game/game/@id/data()
+    let $gameId := $game/game/@id
     let $redirection := "/game/" || $gameId
     let $response := ch:callModelFunction("post", $pathToSave, $game)
     return web:redirect($redirection)

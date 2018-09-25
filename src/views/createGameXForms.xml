@@ -1,7 +1,9 @@
 <?xml-stylesheet href="static/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <?css-conversion no?>
 <?xsltforms-options debug="no"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:xf="http://www.w3.org/2002/xforms" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <head>
         <title>Munich-Memory</title>
         <link rel="stylesheet" type="text/css" href="static/css/lobbyStyles.css"/>      
@@ -20,8 +22,6 @@
                     </players>
                 </data>
             </xf:instance>   
-            <xf:bind id="numberOfCards" nodeset="/data/numberOfCards" type="xs:int"/>
-            <xf:bind id="numberOfPlayers" nodeset="/data/numberOfPlayers" type="xs:int"/>
             <xf:bind id="player1" nodeset="/data/players/player[1]" type="xs:string" required="true()"/>
             <xf:bind id="player2" nodeset="/data/players/player[2]" type="xs:string" relevant="/data/numberOfPlayers &gt; 1" required="true()"/>
             <xf:bind id="player3" nodeset="/data/players/player[3]" type="xs:string" relevant="/data/numberOfPlayers &gt; 2" required="true()"/>

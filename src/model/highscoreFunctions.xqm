@@ -1,6 +1,6 @@
 xquery version "3.0"  encoding "UTF-8";
 
-module namespace hf = "memory/src/model/gameMenuFunctions";
+module namespace hf = "memory/src/model/highscoreFunctions";
 
 import module namespace ch = "memory/src/controller/controllerHelper" at "../controller/controllerHelper.xqm";
 

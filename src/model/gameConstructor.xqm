@@ -23,9 +23,9 @@ declare
     %rest:POST("{$body}")
     function gco:createGame($body) as element(game)
 {
-    let $numberOfCards := $body//numberOfCards/text()
-    let $numberOfPlayers := $body//numberOfPlayers/text()
-    let $key := string-join($body//player/text())
+    let $numberOfCards := $body//numberOfCards
+    let $numberOfPlayers := $body//numberOfPlayers
+    let $key := string-join($body//player)
     let $id := gco:createUniqueGameId($key)
     let $players := gco:createPlayers($body//players)
     let $gameState := gco:createGameState()
@@ -103,7 +103,6 @@ declare %private
     function gco:createCards($numberOfCards as xs:int) as element(cards)
 {   
     <cards>{
-        let $boardRows := gco:getRowsForCardCount($numberOfCards)
         let $boardColumns := gco:getColumnsForCardCount($numberOfCards)
         let $cardIdSequence := gco:getRandomCardIdSequence($numberOfCards)
         for $id at $count in $cardIdSequence
