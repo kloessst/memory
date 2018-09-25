@@ -459,10 +459,11 @@
                         </row>
                         <row>
                             <entry/>
-                            <entry/>
-                            <entry/>
-                            <entry/>
-                            <entry/>
+                            <entry>gmc:ExitGame</entry>
+                            <entry>POST</entry>
+                            <entry>/gameMenu/exit</entry>
+                            <entry>Löscht das Spiel ein leitet zur LobbyMenu-Seite weiter. Die
+                                    gameId wird über eine HTML-Form übermittelt.</entry>
                         </row>
                     </tbody>
                 </tgroup>

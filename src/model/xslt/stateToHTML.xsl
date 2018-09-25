@@ -28,7 +28,7 @@
                     <li>
                         <a href="#saveDialog">Save Game</a>
                     </li>
-                    <li><a href="#">Exit</a></li>
+                    <li><a href="#exitDialog">Exit</a></li>
                 </ul>
             </div>
             
@@ -47,6 +47,19 @@
                     <br/>
                     <a href="#" class="button">Cancel</a>
                     <button type="submit">Confirm</button>
+                </form> 
+            </dialog>
+            
+            <dialog id="exitDialog" class="dialog"> 
+                <h2>Exit Game</h2> 
+                <form action="/gameMenu/exit" method="post">
+                    <input type="hidden" id="gameId" name="gameId" value="{$gameId}"/>
+                    <div>
+                        The game will be deleted by exiting the game.
+                    </div>
+                    <br/>
+                    <a href="#" class="button">Cancel</a>
+                    <button type="submit">Continue</button>
                 </form> 
             </dialog>
             

@@ -37,3 +37,15 @@ declare %private
         <gamePassword>{$gamePassword}</gamePassword>
     </savedGameData>
 };
+
+declare
+    %rest:path("/gameMenu/exit")
+    %rest:POST
+    %rest:form-param("gameId","{$gameId}")
+    function gmc:exitGame($gameId as xs:string)
+{
+    let $deleteGamePath := "/model/database/deleteGame/" || $gameId
+    let $redirection := "/menu"
+    let $dummy := ch:callModelFunction("post", $deleteGamePath, ())[2]
+    return web:redirect($redirection)
+};
